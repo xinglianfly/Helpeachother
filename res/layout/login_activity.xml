@@ -6,12 +6,20 @@
     android:padding="20dp"
    android:background="#fff">
    
-            <ImageView 
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/login_area_edittext"
+        >
+        
+		<ImageView 
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:background="@drawable/backl"/>
+            android:layout_centerInParent="true"
+            android:background="@drawable/background_login"/>
+        
+	</RelativeLayout>
+   
 
 
     <LinearLayout 
