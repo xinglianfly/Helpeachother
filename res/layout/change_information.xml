@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffffff"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="51dp"
+        android:layout_gravity="center_horizontal"
+        android:background="#00b2b2" >
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:text="修改信息"
+            android:textColor="@color/color_white"
+            android:textSize="9pt" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dip"
+        android:layout_weight="2" >
+
+        <RelativeLayout
+            android:id="@+id/relativeLayout1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dip" >
+
+            <RelativeLayout
+                android:id="@+id/relativeLayout2"
+                android:layout_width="wrap_content"
+                android:layout_height="47dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="35dp"
+                android:layout_toRightOf="@+id/userface"
+                android:background="@drawable/bar1"
+                android:gravity="center_vertical" >
+
+                <TextView
+                    android:id="@+id/name1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:paddingLeft="6dp"
+                    android:text="我是"
+                    android:textColor="#00C5CD"
+                    android:textSize="23sp" />
+
+                <EditText
+                    android:id="@+id/name2"
+                    android:layout_width="fill_parent"
+                    android:layout_height="49dp"
+                    android:layout_alignBaseline="@+id/name1"
+                    android:layout_toRightOf="@+id/name1"
+                    android:background="@drawable/background"
+                    android:maxLength="7"
+                    android:singleLine="true"
+                    android:text="大"
+                    android:textColor="#00C5CD"
+                    android:textSize="23sp" />
+
+                <!-- <Spinner
+                    android:id="@+id/register_spinner_name"
+                    android:layout_width="80dp"
+                    android:layout_height="49dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:background="@drawable/register_spinner"
+                    android:paddingRight="3dp" /> -->
+            </RelativeLayout>
+
+            <ImageView
+                android:id="@+id/userface"
+                android:layout_width="90dp"
+                android:layout_height="90dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="65dp"
+                android:src="@drawable/face" />
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/relativeLayout2"
+                android:layout_marginLeft="28dp"
+                android:layout_marginRight="50dp"
+                android:layout_marginTop="10dp"
+                android:layout_toRightOf="@+id/userface"
+                android:gravity="center_vertical" >
+
+                <Spinner
+                    android:id="@+id/register_spinner_sex1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:background="@drawable/register_spinner" />
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:layout_below="@+id/register_spinner_sex1"
+                    android:layout_marginTop="7dp"
+                    android:background="@drawable/bar2"
+                    android:gravity="center_vertical" >
+
+                    <TextView
+                        android:id="@+id/school"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:layout_centerVertical="true"
+                        android:paddingLeft="10dp"
+                        android:text="学校"
+                        android:textColor="#00C5CD"
+                        android:textSize="23sp" />
+
+                    <EditText
+                        android:id="@+id/changeschool"
+                        android:layout_width="fill_parent"
+                        android:layout_height="40dp"
+                        android:layout_toRightOf="@+id/school"
+                        android:background="@drawable/background"
+                        android:gravity="center_vertical"
+                        android:text="sssss"
+                        android:textColor="#00C5CD"
+                        android:textSize="23sp" />
+                </RelativeLayout>
+            </RelativeLayout>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="53dp"
+            android:layout_below="@+id/relativeLayout1"
+            android:layout_marginLeft="50dp"
+            android:layout_marginRight="26dp"
+            android:layout_marginTop="7dp"
+            android:background="@drawable/bar3"
+            android:gravity="center_vertical"
+            android:orientation="horizontal" >
+
+            <EditText
+                android:id="@+id/change_tel"
+                android:layout_width="fill_parent"
+                android:layout_height="53dp"
+                android:layout_alignBaseline="@+id/tel"
+                android:layout_gravity="bottom"
+                android:layout_marginLeft="30dp"
+                android:layout_toRightOf="@+id/tel"
+                android:background="@drawable/background"
+                android:inputType="phone"
+                android:paddingLeft="3dp"
+                android:singleLine="true"
+                android:text="15165137915"
+                android:textColor="#00C5CD"
+                android:textSize="26sp" />
+
+            <TextView
+                android:id="@+id/tel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:paddingLeft="20dp"
+                android:text="Tel:"
+                android:textColor="#ffb652"
+                android:textSize="26sp" />
+        </RelativeLayout>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="5"
+        android:gravity="center_horizontal" >
+
+        <Button
+            android:id="@+id/quxiao"
+            android:layout_width="70dp"
+            android:layout_height="39dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="27dp"
+            android:background="#00C5CD"
+            android:text="取消"
+            android:textColor="#ffffff"
+            android:textSize="24sp" />
+
+        <Button
+            android:id="@+id/baocun"
+            android:layout_width="70dp"
+            android:layout_height="39dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginRight="27dp"
+            android:background="#00C5CD"
+            android:text="保存"
+            android:textColor="#ffffff"
+            android:textSize="24sp" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" >
+
+    </RelativeLayout>
+
+</LinearLayout>

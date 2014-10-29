@@ -1,0 +1,101 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="cn.edu.sdu.online"
+    android:versionCode="30"
+    android:versionName="1.2" >
+
+    <uses-sdk
+        android:minSdkVersion="8"
+        android:targetSdkVersion="18" />
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.USE_CREDENTIALS" />
+    <uses-permission android:name="android.permission.MANAGE_ACCOUNTS" />
+
+    <application
+        android:name="cn.edu.sdu.online.share.FloatApplication"
+        android:allowBackup="true"
+        android:icon="@drawable/icon"
+        android:label="@string/app_name"
+        android:screenOrientation="portrait"
+     android:theme="@android:style/Theme.Light"
+         >
+        <activity
+            android:name="cn.edu.sdu.online.activity.SplashActivity"
+            android:screenOrientation="portrait"
+            >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name="com.umeng.fb.ConversationActivity"
+            android:screenOrientation="portrait"
+         />
+        <activity android:name="com.umeng.fb.ContactActivity"
+            android:screenOrientation="portrait"
+        />
+        <meta-data android:value="YOUR_APP_KEY" android:name="UMENG_APPKEY"></meta-data>
+        <meta-data android:value="Channel ID" android:name="UMENG_CHANNEL"/>
+        <activity android:name="cn.edu.sdu.online.activity.FragmentTabsPager"
+             android:screenOrientation="portrait" >
+            
+        </activity>
+        <activity android:name="cn.edu.sdu.online.activity.LoginActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        
+        <activity
+            android:name="cn.edu.sdu.online.activity.PublishTaskActivity"
+            android:screenOrientation="portrait"
+           >
+        </activity>
+        <activity android:name="cn.edu.sdu.online.activity.taskDetailActivity" 
+            android:screenOrientation="portrait">
+        </activity>
+        <activity android:name="cn.edu.sdu.online.activity.ChangePersonActivity" 
+            android:screenOrientation="portrait">
+        </activity>
+           <activity android:name="cn.edu.sdu.online.activity.About" 
+               android:screenOrientation="portrait">
+        </activity>
+          <activity android:name="cn.edu.sdu.online.activity.UserGuideActivity"
+              android:screenOrientation="portrait" >
+        </activity>
+        <activity android:name="cn.edu.sdu.online.activity.MessageBox"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity android:name="cn.edu.sdu.online.activity.ChangePassW" 
+            android:screenOrientation="portrait">
+        </activity>
+        <activity android:name="cn.edu.sdu.online.activity.RegisterActivity" 
+            android:screenOrientation="portrait">
+        </activity>
+        <activity android:name="cn.edu.sdu.online.activity.MessageActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity android:name="cn.edu.sdu.online.activity.DetailedTaskActivity" 
+            android:screenOrientation="portrait">
+        </activity>
+        <activity android:name="cn.edu.sdu.online.activity.RegisterActivityNext"
+            android:screenOrientation="portrait" >
+        </activity>
+         <activity android:name="cn.edu.sdu.online.activity.ChatClient" 
+             android:screenOrientation="portrait">
+        </activity>
+          <service android:name="cn.edu.sdu.online.chatservice.ChatwithService">
+        </service>
+    </application>
+    <application android:name="cn.edu.sdu.view.MyApplication" >
+    </application>
+
+</manifest>

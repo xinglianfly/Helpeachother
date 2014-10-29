@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="match_parent"
+    android:background="#fff"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/button1"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:background="@drawable/ig"
+            android:text="综合"
+            android:textColor="#00C5CD"
+            android:textSize="20sp" />
+
+        <Button
+            android:id="@+id/button2"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:background="@drawable/ig"
+            android:text="学校"
+            android:textColor="#00C5CD"
+            android:textSize="20sp" />
+
+        <Button
+            android:id="@+id/button3"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:background="@drawable/ig"
+            android:text="紧急"
+            android:textColor="#00C5CD"
+            android:textSize="20sp" />
+
+        <Button
+            android:id="@+id/button4"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:background="@drawable/ig"
+            android:text="悬赏"
+            android:textColor="#00C5CD"
+            android:textSize="20sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical" >
+	<cn.edu.sdu.online.view.RefreshListView
+            android:id="@+id/square_listview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        
+      <!--   <ListView
+            android:id="@+id/square_listview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+        </ListView> -->
+       
+
+    </LinearLayout>
+
+</LinearLayout>

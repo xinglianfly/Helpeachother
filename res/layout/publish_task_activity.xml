@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent"
+	android:layout_height="fill_parent"
+	android:layout_gravity="center_horizontal"
+	android:background="#fff" >
+
+    <RelativeLayout
+        android:id="@+id/publish_area_bar"
+        android:layout_width="fill_parent"
+        android:layout_height="60dp"
+        android:background="#00b2b2"
+        >
+	<TextView
+		android:id="@+id/title"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_centerHorizontal="true"
+		android:layout_centerVertical="true"
+		android:text="发布"
+		android:textColor="@color/color_white"
+		android:background="#00b2b2"
+		android:textSize="9pt" />
+	</RelativeLayout>
+	
+<ScrollView
+    android:layout_below="@+id/publish_area_bar"
+    android:layout_width="fill_parent"
+    android:layout_height="match_parent"
+    android:background="#ffff"
+    >
+
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="10dp" >
+
+
+
+
+        <RelativeLayout
+            android:id="@+id/publish_area_award"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+			>
+
+            <LinearLayout
+                android:id="@+id/publish_area_left"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:orientation="vertical" >
+
+                <ImageView
+                    android:id="@+id/pubilsh_image_money"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/button_green"
+                   android:src="@drawable/icon_money" 
+                    />
+
+                <ViewStub
+                    android:id="@+id/money_firstshow"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="5dp"
+                    android:layout="@layout/money_award_firstshow" >
+                </ViewStub>
+
+                <ViewStub
+                    android:id="@+id/money_secondshow"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="5dp"
+                    android:layout="@layout/money_award_secondshow" >
+                </ViewStub>
+            </LinearLayout>
+<!-- 
+            <LinearLayout
+                android:id="@+id/publish_area_center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:gravity="center_horizontal"
+                android:orientation="vertical" >
+
+                <ImageView
+                    android:id="@+id/pubilsh_image_score"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/button_green"
+                    android:src="@drawable/icon_star" />
+
+                <TextView
+                    android:id="@+id/text_score"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="33dp"
+                    android:text="5积分" />
+            </LinearLayout>
+ -->
+
+            <LinearLayout
+                android:id="@+id/publish_area_right"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:orientation="vertical" >
+            <ImageView
+                android:id="@+id/pubilsh_image_spirit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:background="@drawable/button_green"
+                android:src="@drawable/icon_heart" />
+            
+            <ViewStub
+                    android:id="@+id/spirit_firstshow"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="5dp"
+                    android:layout="@layout/spirit_award_firstshow" >
+                </ViewStub>
+
+                <ViewStub
+                    android:id="@+id/spirit_secondshow"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="5dp"
+                    android:layout="@layout/spirit_award_secondshow" >
+                </ViewStub>
+            </LinearLayout>
+            
+            
+        </RelativeLayout>
+
+
+
+            <EditText
+                android:id="@+id/describe"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:hint="一句话描述任务："
+                android:background="@drawable/fram_aword"
+                android:lines="5"
+                android:gravity="top"
+                android:layout_marginTop="10dp"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@+id/publish_area_award"
+                 />
+            
+            <EditText
+                android:id="@+id/describe_detil"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:hint="任务细节描述："
+                android:background="@drawable/fram_mword"
+                android:lines="6"
+                android:gravity="top"
+                android:layout_marginTop="5dp"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@+id/describe"
+                 />
+            
+            
+      
+<!-- 
+        <LinearLayout
+            android:id="@+id/publish_area_check_box"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="100dp"
+            android:layout_below="@+id/describe_detil"
+            android:layout_alignRight="@+id/describe_detil"
+            android:orientation="vertical" >
+
+ -->
+            <CheckBox
+                android:id="@+id/ifpublic"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="公开联系方式" 
+                android:layout_below="@+id/describe_detil"
+            android:layout_alignRight="@+id/describe_detil"
+            />
+
+
+
+	<TextView
+	    android:id="@+id/public_textview_deadline"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:layout_below="@+id/ifpublic"
+	    android:layout_alignParentLeft="true"
+	    android:text="请选择截止日期"
+	    android:background="@drawable/edittext"
+	    android:textSize="20sp"/>
+	
+	<Button
+	    android:id="@+id/public_button_select_date"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:text="截止日期"
+	    android:textSize="20sp"
+	    android:background="#66d0a6"
+	    android:textColor="#fff"
+	    android:layout_below="@+id/ifpublic"
+	    android:layout_toRightOf="@+id/public_textview_deadline"
+	    />
+	<TextView
+	    android:id="@+id/public_textview_deadtime"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:layout_below="@+id/public_textview_deadline"
+	    android:layout_alignParentLeft="true"
+	    android:text="请选择截止时间"
+	    android:background="@drawable/edittext"
+	    android:layout_marginTop="3dp"
+	    android:textSize="20sp"/>
+	
+	<Button
+	    android:id="@+id/public_button_select_time"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:text="截止时间"
+	    android:textSize="20sp"
+	    android:background="#66d0a6"
+	    android:textColor="#fff"
+	    android:layout_marginTop="3dp"
+	    android:layout_below="@+id/public_textview_deadline"
+	    android:layout_toRightOf="@+id/public_textview_deadtime"
+	    />
+	
+	
+
+
+    <ImageView
+        android:id="@+id/realease_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/public_textview_deadtime"
+        android:layout_marginTop="10dp"
+        android:src="@drawable/button_publish2" />
+
+</RelativeLayout>
+</ScrollView>
+        </RelativeLayout>

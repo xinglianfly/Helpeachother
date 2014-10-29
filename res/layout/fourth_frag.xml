@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffffff"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1" >
+
+        <RelativeLayout
+            android:id="@+id/relativeLayout1"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" >
+
+            <RelativeLayout
+                android:id="@+id/relativeLayout2"
+                android:layout_width="wrap_content"
+                android:layout_height="47dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginTop="20dp"
+                android:layout_toRightOf="@+id/userface"
+                android:background="@drawable/bar1" >
+
+                <TextView
+                    android:id="@+id/name1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:paddingLeft="9dp"
+                    android:text="我是:"
+                    android:textColor="#00C5CD"
+                    android:textSize="23sp" />
+
+                <TextView
+                    android:id="@+id/name2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBaseline="@+id/name1"
+                    android:layout_toRightOf="@+id/name1"
+                    android:text="大乐豆"
+                    android:textColor="#00C5CD"
+                    android:textSize="23sp" />
+            </RelativeLayout>
+
+            <ImageView
+                android:id="@+id/userface"
+                android:layout_width="90dp"
+                android:layout_height="90dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="65dp"
+                android:src="@drawable/face" />
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/relativeLayout2"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="19dp"
+                android:layout_marginTop="6dp"
+                android:layout_toRightOf="@+id/userface" >
+
+                <TextView
+                    android:id="@+id/sex"
+                    android:layout_width="130dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/bar1"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="10dp"
+                    android:text="我是帅哥"
+                    android:textColor="#00C5CD"
+                    android:textSize="23sp" />
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:layout_below="@+id/sex"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/bar2" >
+
+                    <TextView
+                        android:id="@+id/school"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="10dp"
+                        android:text="学校:"
+                        android:textColor="#00C5CD"
+                        android:textSize="23sp" />
+                      <TextView
+                        android:id="@+id/schoolcontent"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:gravity="center_vertical"
+                        android:layout_toRightOf="@+id/school"
+                        android:text="山东大学"
+                        android:textColor="#00C5CD"
+                        android:textSize="23sp" />
+                </RelativeLayout>
+            </RelativeLayout>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/relativeLayout3"
+            android:layout_width="fill_parent"
+            android:layout_height="50dp"
+            android:layout_below="@+id/relativeLayout1"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/bar3"
+            android:gravity="center_vertical"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:id="@+id/tel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:paddingLeft="3dp"
+                android:text="Tel:"
+                android:textColor="#ffb652"
+                android:textSize="26sp" />
+
+            <TextView
+                android:id="@+id/change_tel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/tel"
+                android:layout_alignBottom="@+id/tel"
+                android:layout_toRightOf="@+id/tel"
+                android:text="15165137915"
+                android:textColor="#00C5CD"
+                android:textSize="26sp" />
+        </RelativeLayout>
+
+        <!--
+             <cn.edu.sdu.online.view.RefreshListView
+            android:id="@+id/listView"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent" /> -->
+
+        <include
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            layout="@layout/bottom_button" />
+
+    </RelativeLayout>
+
+</LinearLayout>

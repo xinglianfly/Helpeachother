@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:id="@+id/publish_area_bar"
+        android:layout_width="fill_parent"
+        android:layout_height="60dp"
+        android:background="#00b2b2" >
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:background="#00b2b2"
+            android:text="消息记录"
+            android:textColor="@color/color_white"
+            android:textSize="9pt" />
+    </RelativeLayout>
+
+    <ListView
+        android:id="@+id/messagelist"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+    </ListView>
+
+</LinearLayout>

@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="fill_parent" >
+
+    <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" >
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="51dp"
+                android:layout_gravity="center_horizontal"
+                android:background="#00b2b2" >
+
+                <TextView
+                    android:id="@+id/title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:text="详情"
+                    android:textColor="@color/color_white"
+                    android:textSize="9pt" />
+
+                <TextView
+                    android:id="@+id/messagebox"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="消息盒子"
+                    android:layout_marginRight="15dp"
+                    android:layout_alignParentRight="true" 
+                    android:layout_centerVertical="true"/>
+                <!-- <TextView android:id="@+id/"/> -->
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/relative1"
+                android:layout_width="match_parent"
+                android:layout_height="400dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginTop="50dp"
+                android:background="@drawable/fram" >
+
+                <RelativeLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="45dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentLeft="true"
+                    android:background="@drawable/bar3"
+                    android:gravity="center" >
+
+                    <TextView
+                        android:id="@+id/tel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:paddingLeft="3dp"
+                        android:text="Tel:"
+                        android:textColor="#ffb652"
+                        android:textSize="26sp" />
+
+                    <TextView
+                        android:id="@+id/change_tel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignBaseline="@+id/tel"
+                        android:layout_alignBottom="@+id/tel"
+                        android:layout_toRightOf="@+id/tel"
+                        android:autoLink="phone"
+                        android:paddingLeft="3dp"
+                        android:text="15165137915"
+                        android:textColor="#00C5CD"
+                        android:textSize="26sp" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/relative11"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentTop="true" >
+
+                    <ImageView
+                        android:id="@+id/userface"
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        android:layout_marginLeft="30dp"
+                        android:layout_marginTop="30dp"
+                        android:src="@drawable/face" />
+
+                    <TextView
+                        android:id="@+id/name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="20dp"
+                        android:layout_marginTop="31dp"
+                        android:layout_toRightOf="@+id/userface"
+                        android:background="@drawable/bar3"
+                        android:paddingLeft="20dp"
+                        android:text="大乐豆"
+                        android:textColor="#00C5CD"
+                        android:textSize="15sp" />
+
+                    <TextView
+                        android:id="@+id/grade"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/name"
+                        android:layout_toRightOf="@+id/userface"
+                        android:paddingLeft="20dp"
+                        android:paddingTop="10dp"
+                        android:text="等级:"
+                        android:textColor="#00C5CD"
+                        android:textSize="15sp" />
+
+                    <TextView
+                        android:id="@+id/school"
+                        android:layout_width="wrap_content"
+                        android:layout_height="20dp"
+                        android:layout_below="@+id/grade"
+                        android:layout_marginRight="77dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_toRightOf="@+id/userface"
+                        android:paddingLeft="20dp"
+                        android:text="学校"
+                        android:textColor="#ffb652"
+                        android:textSize="15sp" />
+
+                    <TextView
+                        android:id="@+id/task"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/userface"
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginTop="20dp"
+                        android:lines="1"
+                        android:paddingLeft="10dp"
+                        android:text="任务"
+                        android:textColor="#00C5CD"
+                        android:textSize="19sp" />
+
+                    <TextView
+                        android:id="@+id/detail"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/task"
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginTop="20dp"
+                        android:lines="6"
+                        android:paddingLeft="10dp"
+                        android:text="详细信息"
+                        android:textColor="#00C5CD"
+                        android:textSize="19sp" />
+
+                    <TextView
+                        android:id="@+id/reward"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_below="@+id/detail"
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginTop="10dp"
+                        android:text="奖励"
+                        android:textColor="#00C5CD"
+                        android:textSize="15sp" />
+
+                    <TextView
+                        android:id="@+id/time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/detail"
+                        android:layout_marginLeft="40dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_toRightOf="@+id/reward"
+                        android:text="时间期限"
+                        android:textColor="#ffb652"
+                        android:textSize="15sp" />
+                </RelativeLayout>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/relative1"
+                android:layout_centerHorizontal="true" >
+
+                <Button
+                    android:id="@+id/message"
+                    android:layout_width="70dp"
+                    android:layout_height="35dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_toRightOf="@+id/ignore"
+                    android:background="@drawable/ig"
+                    android:text="联系"
+                    android:textColor="#00C5CD"
+                    android:textSize="20sp" />
+
+                <Button
+                    android:id="@+id/ignore"
+                    android:layout_width="70dp"
+                    android:layout_height="35dp"
+                    android:layout_above="@+id/frameLayout1"
+                    android:layout_toLeftOf="@+id/accept"
+                    android:background="#00C5CD"
+                    android:text="忽略"
+                    android:textColor="#ffffff"
+                    android:textSize="20sp" />
+            </RelativeLayout>
+        </RelativeLayout>
+    </ScrollView>
+
+</RelativeLayout>

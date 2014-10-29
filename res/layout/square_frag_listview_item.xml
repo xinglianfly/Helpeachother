@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="match_parent"
+    android:background="#fff"
+    android:padding="3dp" >
+
+    <RelativeLayout
+        android:id="@+id/relativeLayout1"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true" >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/list_square" >
+
+            <TextView
+                android:id="@+id/name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:paddingLeft="25dp"
+                android:paddingTop="5dp"
+                android:text="hehe"
+                android:textColor="#66d0a6"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/squarescore"
+                android:layout_width="20sp"
+                android:layout_height="20sp"
+                android:layout_alignParentRight="true"
+                android:paddingRight="10dp"
+                android:paddingTop="5dp"
+                android:textColor="#66d0a6"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/formaltext"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/name"
+                android:paddingLeft="30dp"
+                android:singleLine="true"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/reward"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/textView2"
+                android:layout_alignBottom="@+id/textView2"
+                android:layout_toLeftOf="@+id/squarescore"
+                android:paddingBottom="5dp"
+                android:paddingLeft="20dp"
+                android:text="reward"
+                android:textColor="#66d0a6"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/name"
+                android:layout_toLeftOf="@+id/reward"
+                android:text="奖励："
+                android:textColor="#66d0a6" />
+
+            <TextView
+                android:id="@+id/textView1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                 android:paddingBottom="5dp"
+                android:text="任务有效期："
+                android:textColor="#66d0a6" />
+
+            <TextView
+                android:id="@+id/lefttime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_toRightOf="@+id/textView1"
+                android:paddingBottom="5dp"
+                android:paddingRight="10dp"
+                android:text="time"
+                android:textColor="#66d0a6"
+                android:textSize="15sp" />
+
+            <ImageView
+                android:id="@+id/imageView_sex"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/textView2"
+                android:layout_marginLeft="10dp"
+                android:layout_toRightOf="@+id/name"
+                 />
+
+        </RelativeLayout>
+    </RelativeLayout>
+
+</RelativeLayout>

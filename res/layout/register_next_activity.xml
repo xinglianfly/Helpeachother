@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="20dp"
+    android:background="#fff" >
+
+            <ImageView 
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/backl"/>
+    
+    
+    <RelativeLayout
+        android:id="@+id/register_next_area_input"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true" >
+
+        <RelativeLayout
+            android:id="@+id/register_next_area_nickname"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:orientation="horizontal" >
+
+            <ImageView
+                android:id="@+id/register_next_image_nickname"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/login_user"
+                 />
+            <Spinner
+                android:id="@+id/register_spinner_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/register_spinner"
+                android:layout_alignParentRight="true"
+                android:layout_alignTop="@+id/register_next_image_nickname"
+                />
+                <!-- android:layout_toRightOf="@+id/register_next_edittext_nickname" --> 
+            <EditText
+                android:id="@+id/register_next_edittext_nickname"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/login_edittext"
+                android:hint="@string/register_next_edittext_nickname"
+                android:layout_alignTop="@+id/register_next_image_nickname"
+                android:layout_toRightOf="@+id/register_next_image_nickname"
+                android:layout_toLeftOf="@+id/register_spinner_name" />
+
+
+        </RelativeLayout>
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/register_next_button_ok"
+        android:layout_width="60dp"
+        android:layout_height="32dp"
+        android:layout_above="@+id/register_next_button_jump"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="43dp"
+        android:background="@drawable/button_login"
+        android:text="@string/register_next_button_ok"
+        android:textColor="#fff"
+        android:textSize="20sp" />
+
+    <Button
+        android:id="@+id/register_next_button_jump"
+        android:layout_width="60dp"
+        android:layout_height="32dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="62dp"
+        android:background="#00000000"
+        android:text="@string/register_next_button_jump"
+        android:textColor="#bcbcbc"
+        android:textSize="20sp" />
+
+</RelativeLayout>

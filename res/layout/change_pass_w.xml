@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <RelativeLayout
+        android:id="@+id/relativeLayout1"
+        android:layout_width="fill_parent"
+        android:layout_height="51dp"
+        android:layout_gravity="center_horizontal"
+        android:background="#00b2b2" >
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:maxEms="10"
+            android:maxLength="10"
+            android:text="修改密码"
+            android:textColor="@color/color_white"
+            android:textSize="9pt" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/relativeLayout2"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="30dp" >
+
+        <TextView
+            android:id="@+id/oldpass"
+            android:layout_width="wrap_content"
+            android:layout_height="88dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="100dp"
+            android:maxEms="10"
+            android:maxLength="10"
+            android:text="原密码"
+            android:textColor="#00C5CD"
+            android:textSize="25dp" />
+
+        <TextView
+            android:id="@+id/newpass"
+            android:layout_width="wrap_content"
+            android:layout_height="88dp"
+            android:layout_alignParentLeft="true"
+            android:layout_marginTop="150dp"
+            android:maxLength="10"
+            android:text="新密码"
+            android:textColor="#00C5CD"
+            android:textSize="25dp" />
+
+        <TextView
+            android:id="@+id/forsure"
+            android:layout_width="wrap_content"
+            android:layout_height="88dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="200dp"
+            android:text="   确认"
+            android:textColor="#00C5CD"
+            android:textSize="25dp" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/relativeLayout3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/relativeLayout1"
+        android:layout_toRightOf="@+id/relativeLayout2" >
+
+        <EditText
+            android:id="@+id/editText1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/editText2"
+            android:layout_marginTop="40dp"
+            android:background="@drawable/bar3"
+            android:ems="10"
+            android:inputType="textPassword"
+            android:maxLength="12" >
+        </EditText>
+
+        <EditText
+            android:id="@+id/editText2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/editText3"
+            android:layout_below="@+id/editText1"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/bar3"
+            android:ems="10"
+            android:inputType="textPassword"
+            android:maxLength="12" />
+
+        <EditText
+            android:id="@+id/editText3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/editText2"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/bar3"
+            android:ems="10"
+            android:inputType="textPassword"
+            android:maxLength="12" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/relativeLayout3"
+        android:layout_marginTop="122dp"
+        android:gravity="center_horizontal" >
+
+        <Button
+            android:id="@+id/quxiao"
+            android:layout_width="70dp"
+            android:layout_height="39dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="30dp"
+            android:background="#00C5CD"
+            android:text="取消"
+            android:textColor="#ffffff"
+            android:textSize="24sp" />
+
+        <Button
+            android:id="@+id/baocun"
+            android:layout_width="70dp"
+            android:layout_height="39dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginRight="30dp"
+            android:background="#00C5CD"
+            android:text="OK"
+            android:textColor="#ffffff"
+            android:textSize="24sp" />
+    </RelativeLayout>
+
+</RelativeLayout>
