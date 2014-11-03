@@ -13,12 +13,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Application;
+import android.content.ComponentName;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.IBinder;
 import android.util.Log;
 import android.view.WindowManager;
+import cn.edu.sdu.online.activity.LoginActivity;
 import cn.edu.sdu.online.chatservice.ChatwithService;
+import cn.edu.sdu.online.chatservice.ChatwithService.ChatBinder;
 import cn.edu.sdu.online.entity.Task;
 import cn.edu.sdu.online.entity.User;
 import cn.edu.sdu.online.sqlite.PersistService;
@@ -27,6 +32,8 @@ public class FloatApplication extends Application {
 
 	public static FloatApplication app;
 	private WindowManager.LayoutParams windowParams = new WindowManager.LayoutParams();
+	private boolean bound = false;
+	private ChatwithService chatservice;
 
 	public WindowManager.LayoutParams getWindowParams() {
 		return windowParams;
@@ -37,20 +44,14 @@ public class FloatApplication extends Application {
 		// TODO Auto-generated method stub
 		super.onCreate();
 		app = this;
-		Intent intent = new Intent(this,ChatwithService.class);
+		Intent intent = new Intent(this, ChatwithService.class);
 		startService(intent);
 	}
-//	public static ArrayList<String>  getChatUsers(){
-//		ArrayList<String> users = PersistService.getInstance(app).getRecentUser(
-//				ChatService.getInstance(app).getUsername());
-//		return users;
-//	}
-	
-	public static PersistService getPersistInstence(){
-	
+
+	public static PersistService getPersistInstence() {
 		return PersistService.getInstance(app);
-		
 	}
+
 	/*
 	 * 存储广场任务列表
 	 */
@@ -193,7 +194,7 @@ public class FloatApplication extends Application {
 	/*
 	 * 得到用户信息
 	 */
-	public  User getUser(String filename) {
+	public User getUser(String filename) {
 		User user = null;
 		try {
 			FileInputStream in = openFileInput(filename);

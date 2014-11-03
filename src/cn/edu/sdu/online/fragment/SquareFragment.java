@@ -116,11 +116,6 @@ public class SquareFragment extends Fragment implements OnClickListener {
 			taskList = tempList;
 		}
 		initSquareLayout();
-
-		
-		
-		
-		
 		return view;
 
 	}

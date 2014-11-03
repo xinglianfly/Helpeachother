@@ -49,23 +49,8 @@ public class MylistviewAdapter extends BaseAdapter {
 		// ImageView faceImage;
 		TextView leftTime, reward, formalText, name;
 		ImageView im_sex;
-		// if(position%2==0){
-		// inflater = (LayoutInflater) activity
-		// .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		convertView = inflater
 				.inflate(R.layout.square_frag_listview_item, null);
-		// convertView . setClickable ( true );
-		// }else{
-		// convertView = inflater.inflate(R.layout.square_second_fragment,
-		// null);
-		// }
-		// faceImage = (ImageView) convertView.findViewById(R.id.faceimage);
-		// faceImage.setImageResource(R.drawable.faceimage);
-
-		// squarescore =
-		// (TextView)convertView.findViewById(R.id.squarescore);
-		// squarescore.setText("7分");
-		
 		name = (TextView) convertView.findViewById(R.id.name);
 		name.setText(listDate.get(position).getNickName());
 		im_sex = (ImageView)convertView.findViewById(R.id.imageView_sex);

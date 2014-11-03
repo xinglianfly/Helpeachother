@@ -294,7 +294,8 @@ public class ChatwithService extends Service {
 		mNotifyBuilder.setContentText(currentText).setAutoCancel(true);
 		Intent intent = new Intent(this, ChatClient.class);
 		intent.putExtra("USERIDTO", content.getFrom());
-		intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		Log.v(TAG, content.getFrom()+"content from");
+//		intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 		PendingIntent pendingIntent = PendingIntent.getActivity(
 				ChatwithService.this, 0, intent, PendingIntent.FLAG_ONE_SHOT);
 		mNotifyBuilder.setContentIntent(pendingIntent);
