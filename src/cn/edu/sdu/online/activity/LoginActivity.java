@@ -47,6 +47,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
 
 	/** 如果登录成功后,用于保存PASSWORD到SharedPreferences,以便下次不再输入 */
 	private String SHARE_LOGIN_PASSWORD = "MAP_LOGIN_PASSWORD";
+	private String SHARE_LOGIN_SUCCESS = "SHARE_LOGIN_SUCCESS";
 
 	/** 如果登陆失败,这个可以给用户确切的消息显示,true是网络连接失败,false是用户名和密码错误 */
 	private boolean isNetError;
@@ -62,17 +63,18 @@ public class LoginActivity extends Activity implements View.OnClickListener {
 	String openid;
 	SharedPreferences sp;
 	boolean isRemember = true;
-	private boolean bound=false;
+	private boolean bound = false;
 	private ChatwithService chatservice;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
-		requestWindowFeature(Window.FEATURE_NO_TITLE);//隐藏标题 
+		requestWindowFeature(Window.FEATURE_NO_TITLE);// 隐藏标题
 		setContentView(R.layout.login_activity);
 		sp = PreferenceManager.getDefaultSharedPreferences(this);
-		if(sp.getBoolean("first_run", true)){
-			Intent intent = new Intent(this,UserGuideActivity.class);
+		if (sp.getBoolean("first_run", true)) {
+			Intent intent = new Intent(this, UserGuideActivity.class);
 			startActivity(intent);
 			Editor editor = sp.edit();
 			editor.putBoolean("first_run", false);
@@ -85,8 +87,8 @@ public class LoginActivity extends Activity implements View.OnClickListener {
 		Intent intent = new Intent(LoginActivity.this, ChatwithService.class);
 		bindService(intent, serviceConnection, BIND_IMPORTANT);
 
-
 	}
+
 	ServiceConnection serviceConnection = new ServiceConnection() {
 
 		@Override
@@ -195,9 +197,9 @@ public class LoginActivity extends Activity implements View.OnClickListener {
 		switch (tag) {
 		case 1:
 			initUser();// 从输入框得到数据
-			dialog =DialogUtil.createLoadingDialog(this, "请稍后...");
+			dialog = DialogUtil.createLoadingDialog(this, "请稍后...");
 			dialog.show();
-		
+
 			Thread loginTh = new Thread(new loginThread());
 			loginTh.start();
 
@@ -282,19 +284,20 @@ public class LoginActivity extends Activity implements View.OnClickListener {
 
 	Handler loginHandler = new Handler() {
 		public void handleMessage(Message message) {
+			SharedPreferences share = getSharedPreferences(SHARE_LOGIN_TAG, 0);
 			Log.v(TAG, "message.what" + message.what);
 			switch (message.what) {
 
 			case 1:
 				// 登录成功
-				SharedPreferences share = getSharedPreferences(SHARE_LOGIN_TAG,
-						0);
+
 				share.edit()
 						.putString(SHARE_LOGIN_PASSWORD,
 								editPass.getText().toString()).commit();
 				share.edit()
 						.putString(SHARE_LOGIN_EMAIL,
 								editUser.getText().toString()).commit();
+				share.edit().putBoolean(SHARE_LOGIN_SUCCESS, true).commit();
 				Toast.makeText(LoginActivity.this,
 						getString(R.string.loginSuccess), Toast.LENGTH_SHORT)
 						.show();
@@ -310,6 +313,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
 				if (dialog != null) {
 					dialog.dismiss();
 				}
+				share.edit().putBoolean(SHARE_LOGIN_SUCCESS, false).commit();
 				Toast.makeText(LoginActivity.this,
 						getString(R.string.loginFail), Toast.LENGTH_SHORT)
 						.show();
@@ -407,8 +411,11 @@ public class LoginActivity extends Activity implements View.OnClickListener {
 			// TODO Auto-generated method stub
 			String username = loginUser.getEmail();
 			String password = loginUser.getPassword();
-			Log.v(TAG, username+"username");
-			Log.v(TAG, password+"password");
+			Log.v(TAG, username + "username");
+			Log.v(TAG, password + "password");
+			if (!chatservice.getConnection().isConnected()) {
+				chatservice.connect();
+			}
 			chatservice.login(ConvertString.convert(username), password);
 
 		}

@@ -3,8 +3,13 @@ package cn.edu.sdu.online.fragment;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
+import android.content.ServiceConnection;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -18,7 +23,10 @@ import cn.edu.sdu.online.R;
 import cn.edu.sdu.online.activity.About;
 import cn.edu.sdu.online.activity.ChangePassW;
 import cn.edu.sdu.online.activity.ChangePersonActivity;
+import cn.edu.sdu.online.activity.LoginActivity;
 import cn.edu.sdu.online.adapter.MessageListAdapter;
+import cn.edu.sdu.online.chatservice.ChatwithService;
+import cn.edu.sdu.online.chatservice.ChatwithService.ChatBinder;
 import cn.edu.sdu.online.share.FloatApplication;
 import cn.edu.sdu.online.view.MyAnimations;
 import cn.edu.sdu.online.view.RefreshListView;
@@ -49,12 +57,37 @@ public class PersonFragment extends Fragment {
 	private ArrayList<HashMap<String, String>> listItem;// 生成动态数组，加入数据
 	int sex = 0;// "0" is girl; "1" is boy;
 	String[] sexs = { "   我是美女", "   我是帅哥" };
-
+	private ChatwithService chatservice;
+	private boolean bound=false;
+	private final String SHARE_LOGIN_TAG = "MAP_SHARE_LOGIN_TAG";
+	private String SHARE_LOGIN_SUCCESS = "SHARE_LOGIN_SUCCESS";
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
+		Intent intent = new Intent(getActivity(), ChatwithService.class);
+		getActivity().bindService(intent, serviceConnection, Context.BIND_IMPORTANT);
+
+
 	}
+	ServiceConnection serviceConnection = new ServiceConnection() {
+
+		@Override
+		public void onServiceDisconnected(ComponentName name) {
+			// TODO Auto-generated method stub
+			bound = false;
+		}
+
+		@Override
+		public void onServiceConnected(ComponentName name, IBinder service) {
+			// TODO Auto-generated method stub
+			ChatBinder binder = (ChatBinder) service;
+			chatservice = binder.getService();
+			bound = true;
+		}
+	};
+
+	
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -64,90 +97,7 @@ public class PersonFragment extends Fragment {
 		super.onCreateView(inflater, container, savedInstanceState);
 		View view4 = inflater.inflate(R.layout.fourth_frag, null);
 		Log.v(TAG, "PersonFragmentonCreate");
-//		message = (RefreshListView) view4.findViewById(R.id.listView);
-//		listItem = new ArrayList<HashMap<String, String>>();
-//		myadapter = new MessageListAdapter(getActivity(), listItem);
-//
-//		message.setAdapter(myadapter);
-//
-//
-//		message.setOnRefreshListener(new OnRefreshListener() {
-//			@Override
-//			public void onRefresh() {
-//				// 异步查询数据
-//				new AsyncTask<Void, Void, Void>() {
-//					@Override
-//					protected Void doInBackground(Void... params) {
-//						SystemClock.sleep(1000);
-//						// 做刷新的地方
-//						return null;
-//					}
-//
-//					protected void onPostExecute(Void result) {
-//						myadapter.notifyDataSetChanged();
-//						// 隐藏头布局
-//						message.onRefreshFinish();
-//					}
-//				}.execute(new Void[] {});
-//			}
-//
-//			@Override
-//			public void onLoadMoring() {
-//				new AsyncTask<Void, Void, Void>() {
-//					@Override
-//					protected Void doInBackground(Void... params) {
-//						SystemClock.sleep(2000);
-//						// 坐加载的地方
-//
-//						return null;
-//					}
-//
-//					@Override
-//					protected void onPostExecute(Void result) {
-//						super.onPostExecute(result);
-//						myadapter.notifyDataSetChanged();
-//						message.onRefreshFinish();
-//					}
-//
-//				}.execute(new Void[] {});
-//			}
-//		});
-//		message.setOnItemClickListener(new OnItemClickListener() {
-//
-//			@SuppressLint("NewApi")
-//			@Override
-//			public void onItemClick(AdapterView<?> parent, View view,
-//					int position, long id) {
-//
-//				final AlertDialog builder = new AlertDialog.Builder(
-//						getActivity(), R.style.dialog).create();
-//				// 通过LayoutInflater来加载一个xml的布局文件作为一个View对象
-//				view = LayoutInflater.from(getActivity()).inflate(
-//						R.layout.replymessage, null);
-//				// 设置我们自己定义的布局文件作为弹出框的Content
-//				((AlertDialog) builder).setView(view, 0, 0, 0, 0);
-//
-//				final Button baocun = (Button) view.findViewById(R.id.baocun);
-//				final Button quxiao = (Button) view.findViewById(R.id.quxiao);
-//				baocun.setOnClickListener(new OnClickListener() {
-//
-//					@Override
-//					public void onClick(View v) {
-//						// TODO Auto-generated method stub
-//
-//					}
-//				});
-//				quxiao.setOnClickListener(new OnClickListener() {
-//
-//					@Override
-//					public void onClick(View v) {
-//						builder.dismiss();
-//					}
-//				});
-//				builder.show();
-//
-//			}
-//		});
+
 		userface=(ImageView)view4.findViewById(R.id.userface);
 
 		composerButtonsWrapper = (RelativeLayout) view4
@@ -245,7 +195,6 @@ public class PersonFragment extends Fragment {
 	private void Setting(int i) {
 		// 按钮操作
 		if (i == 0) {
-			System.out.println("000000");
 			Intent intent = new Intent(getActivity(), About.class);
 			startActivity(intent);
 		}
@@ -274,11 +223,9 @@ public class PersonFragment extends Fragment {
 			bun.putInt("sex", sex);
 			intent.putExtras(bun);
 			startActivityForResult(intent, 0);
-			System.out.println("22222");
 
 		}
 		if (i == 4) {
-			System.out.println("333333");
 			Intent sendIntent = new Intent();
 			sendIntent.setAction(Intent.ACTION_SEND);
 			sendIntent.putExtra(Intent.EXTRA_TEXT,
@@ -288,13 +235,16 @@ public class PersonFragment extends Fragment {
 
 		}
 		if (i == 5) {
-			System.out.println("44444");
 			// 退出
-			System.exit(0);
+			chatservice.disconnect();
+			SharedPreferences share = getActivity().getSharedPreferences(SHARE_LOGIN_TAG, Context.MODE_PRIVATE);
+			share.edit().putBoolean(SHARE_LOGIN_SUCCESS, false).commit();
+			getActivity().unbindService(serviceConnection);
+			getActivity().finish();
 		}
 
 	}
-
+	
 	// @Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		// TODO Auto-generated method stub
