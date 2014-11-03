@@ -34,12 +34,7 @@ import cn.edu.sdu.online.view.RefreshListView;
 import com.umeng.fb.FeedbackAgent;
 
 public class PersonFragment extends Fragment {
-	@Override
-	public void onResume() {
-		// TODO Auto-generated method stub
-		super.onResume();
-		Log.v(TAG, "PersonFragmentonResume");
-	}
+	
 
 	private TextView change_tel;
 	private TextView name2;
@@ -65,11 +60,24 @@ public class PersonFragment extends Fragment {
 	public void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
-		Intent intent = new Intent(getActivity(), ChatwithService.class);
-		getActivity().bindService(intent, serviceConnection, Context.BIND_IMPORTANT);
+		
 
 
 	}
+	
+	@Override
+	public void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+		Intent intent = new Intent(getActivity(), ChatwithService.class);
+		getActivity().bindService(intent, serviceConnection, Context.BIND_IMPORTANT);
+		Log.v(TAG, "PersonFragmentonResume");
+	}
+	
+	public void onPause() {
+		super.onPause();
+		getActivity().unbindService(serviceConnection);
+	};
 	ServiceConnection serviceConnection = new ServiceConnection() {
 
 		@Override
