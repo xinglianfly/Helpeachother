@@ -41,7 +41,7 @@ public class MyAnimations {
 
 			animation.setFillAfter(true);
 			animation.setDuration(durationMillis);
-			animation.setStartOffset((i * 100) / (-1 + viewgroup.getChildCount()));// 下一个动画的偏移时间
+			animation.setStartOffset((i * 400) / (-1 + viewgroup.getChildCount()));// 下一个动画的偏移时间
 			animation.setInterpolator(new OvershootInterpolator(2F));// 动画的效果 弹出再回来的效果
 			inoutimagebutton.startAnimation(animation);
 
