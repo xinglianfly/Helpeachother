@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+    
+            <RelativeLayout
+                android:id="@+id/about_area_title"
+                android:layout_width="fill_parent"
+                android:layout_height="60dp"
+                android:layout_gravity="center_horizontal"
+                android:background="#00b2b2" >
+
+                
+                 <ImageView 
+					android:id="@+id/about_button_back"
+            		android:layout_height="match_parent"
+           			android:layout_width="wrap_content"
+            		android:layout_alignParentLeft="true"
+            		android:src="@drawable/back_button"
+					/>
+        
+        		<TextView 
+            		android:id="@+id/about_button_back_text"
+            		android:layout_width="wrap_content"
+            		android:layout_height="wrap_content"
+            		android:textSize="9pt"
+            		android:layout_toRightOf="@+id/about_button_back"
+            		android:layout_centerVertical="true"
+            		android:text="返回"
+            		android:textColor="#fff"
+           			 />
+                
+                <TextView
+                    android:id="@+id/title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:text="关于我们"
+                    android:textColor="@color/color_white"
+                    android:textSize="9pt" />
+                <!-- <TextView android:id="@+id/"/> -->
+            </RelativeLayout>
+            
+            <WebView
+                android:id="@+id/about_webview"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_below="@+id/about_area_title"
+                android:paddingTop="10dp"/>
+</RelativeLayout>

@@ -14,6 +14,8 @@ import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 import cn.edu.sdu.online.R;
 import cn.edu.sdu.online.entity.User;
@@ -34,6 +36,10 @@ public class ChangePassW extends Activity implements OnClickListener {
 	private final static int CHANGE_SUCCESS = 1;// 改变成功
 	private final static int CHANGE_ERROR = 0;// 改变失败
 	private final static int CHANGE_DENY = 2;// 与原密码不一致
+	
+	//返回按钮
+	ImageView button_back_image;
+	TextView button_back_text;
 
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -43,6 +49,12 @@ public class ChangePassW extends Activity implements OnClickListener {
 	}
 
 	private void initialization() {
+		
+		button_back_image=(ImageView)findViewById(R.id.changepw_button_back);
+		button_back_text=(TextView)findViewById(R.id.changepw_button_back_text);
+		button_back_image.setOnClickListener(new BackListener());
+		button_back_text.setOnClickListener(new BackListener());
+		
 		text1 = (EditText) this.findViewById(R.id.editText1);
 		text2 = (EditText) this.findViewById(R.id.editText2);
 		text3 = (EditText) this.findViewById(R.id.editText3);
@@ -50,6 +62,14 @@ public class ChangePassW extends Activity implements OnClickListener {
 		baocun = (Button) this.findViewById(R.id.baocun);
 		quxiao.setOnClickListener(this);
 		baocun.setOnClickListener(this);
+	}
+	
+	class BackListener implements OnClickListener
+	{
+		public void onClick(View v) 
+		{
+			ChangePassW.this.finish();
+		}
 	}
 
 	@Override

@@ -6,10 +6,29 @@
     <RelativeLayout
         android:id="@+id/relativeLayout1"
         android:layout_width="fill_parent"
-        android:layout_height="51dp"
+        android:layout_height="60dp"
         android:layout_gravity="center_horizontal"
         android:background="#00b2b2" >
 
+        <ImageView 
+			android:id="@+id/changepw_button_back"
+			android:layout_height="match_parent"
+			android:layout_width="wrap_content"
+			android:layout_alignParentLeft="true"
+			android:src="@drawable/back_button"
+			/>
+        
+			<TextView 
+			android:id="@+id/changepw_button_back_text"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:textSize="9pt"
+			android:layout_toRightOf="@+id/changepw_button_back"
+			android:layout_centerVertical="true"
+			android:text="返回"
+			android:textColor="#fff"
+			/>
+        
         <TextView
             android:id="@+id/title"
             android:layout_width="wrap_content"
@@ -27,7 +46,8 @@
         android:id="@+id/relativeLayout2"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:layout_marginLeft="30dp" >
+        android:layout_marginLeft="30dp"
+        >
 
         <TextView
             android:id="@+id/oldpass"
@@ -78,7 +98,7 @@
             android:layout_height="wrap_content"
             android:layout_alignLeft="@+id/editText2"
             android:layout_marginTop="40dp"
-            android:background="@drawable/bar3"
+            android:background="@drawable/ig3"
             android:ems="10"
             android:inputType="textPassword"
             android:maxLength="12" >
@@ -91,7 +111,7 @@
             android:layout_alignLeft="@+id/editText3"
             android:layout_below="@+id/editText1"
             android:layout_marginTop="5dp"
-            android:background="@drawable/bar3"
+            android:background="@drawable/ig3"
             android:ems="10"
             android:inputType="textPassword"
             android:maxLength="12" />
@@ -102,7 +122,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/editText2"
             android:layout_marginTop="5dp"
-            android:background="@drawable/bar3"
+            android:background="@drawable/ig3"
             android:ems="10"
             android:inputType="textPassword"
             android:maxLength="12" />

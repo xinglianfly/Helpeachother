@@ -37,6 +37,10 @@ public class DetailedTaskActivity extends Activity {
 	MessageListAdapter myadapter;
 	private ArrayList<HashMap<String, String>> listItem;// 生成动态数组，加入数据
 	Task task;
+	
+	//返回按钮
+	ImageView button_back_image;
+	TextView button_back_text;
 
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -56,7 +60,8 @@ public class DetailedTaskActivity extends Activity {
 
 	}
 
-	class messageListener implements OnClickListener {
+	class messageListener implements OnClickListener 
+	{
 
 		@Override
 		public void onClick(View v) {
@@ -73,8 +78,23 @@ public class DetailedTaskActivity extends Activity {
 		}
 
 	}
+	
+	class BackListener implements OnClickListener
+	{
+		public void onClick(View v) 
+		{
+			DetailedTaskActivity.this.finish();
+		}
+	}
 
 	private void initialize() {
+		
+		//返回按钮
+		button_back_image=(ImageView)findViewById(R.id.detailed_button_back);
+		button_back_text=(TextView)findViewById(R.id.detailed_button_back_text);
+		button_back_image.setOnClickListener(new BackListener());
+		button_back_text.setOnClickListener(new BackListener());
+		
 		Intent intent = getIntent();
 		Bundle bundle = intent.getExtras();
 		task = (Task) bundle.getSerializable("task");
