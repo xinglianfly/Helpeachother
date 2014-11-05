@@ -3,9 +3,11 @@ package cn.edu.sdu.online.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.view.Window;
 import android.view.WindowManager;
 import cn.edu.sdu.online.R;
@@ -40,12 +42,21 @@ public class SplashActivity extends Activity {
 					finish();
 				} else {
 					Intent intent = new Intent();
+					if (PreferenceManager.getDefaultSharedPreferences(SplashActivity.this).getBoolean("first_run", true)) {
+						intent.setClass(SplashActivity.this, UserGuideActivity.class);
+						startActivity(intent);
+						Editor editor = PreferenceManager.getDefaultSharedPreferences(SplashActivity.this).edit();
+						editor.putBoolean("first_run", false);
+						editor.commit();
+					} else {
 					intent.setClass(SplashActivity.this, LoginActivity.class);
 					startActivity(intent);
+					
+					}
 					finish();
 				}
 			}
-		}, 5000);
+		}, 3000);
 
 	}
 
