@@ -40,7 +40,7 @@ public class SplashActivity extends Activity {
 					finish();
 				} else {
 					Intent intent = new Intent();
-					intent.setClass(SplashActivity.this, LoginActivity.class);
+					intent.setClass(SplashActivity.this, UserGuideActivity.class);
 					startActivity(intent);
 					finish();
 				}

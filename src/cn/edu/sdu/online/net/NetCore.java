@@ -20,7 +20,7 @@ import cn.edu.sdu.online.entity.Task;
 import cn.edu.sdu.online.entity.User;
 
 public class NetCore {
-	//private final static String ServerAddr = "http://211.87.225.164:8080/Dajiabang/";
+	//private final static String ServerAddr = "http://211.87.226.165:8080/Dajiabang/";
 	 private final static String ServerAddr ="http://202.194.14.195:8080/Dajiabang/";
 
 	private final String LoginAddr = ServerAddr + "user/login";

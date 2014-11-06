@@ -27,6 +27,7 @@ import cn.edu.sdu.online.activity.LoginActivity;
 import cn.edu.sdu.online.adapter.MessageListAdapter;
 import cn.edu.sdu.online.chatservice.ChatwithService;
 import cn.edu.sdu.online.chatservice.ChatwithService.ChatBinder;
+import cn.edu.sdu.online.entity.User;
 import cn.edu.sdu.online.share.FloatApplication;
 import cn.edu.sdu.online.view.MyAnimations;
 import cn.edu.sdu.online.view.RefreshListView;
@@ -56,6 +57,7 @@ public class PersonFragment extends Fragment {
 	private boolean bound=false;
 	private final String SHARE_LOGIN_TAG = "MAP_SHARE_LOGIN_TAG";
 	private String SHARE_LOGIN_SUCCESS = "SHARE_LOGIN_SUCCESS";
+	FloatApplication app=FloatApplication.getApp();
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -69,6 +71,15 @@ public class PersonFragment extends Fragment {
 	public void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
+		name2.setText(app.getUser(getString(R.string.userFileName)).getNickName());
+		change_tel.setText(app.getUser(getString(R.string.userFileName)).getPhoneNo());
+		schoolcontent.setText(app.getUser(getString(R.string.userFileName)).getSchool());
+		if(app.getUser(getString(R.string.userFileName)).getSex()==1)
+			userface.setImageResource(R.drawable.boy);
+		else 
+			userface.setImageResource(R.drawable.girl);
+		
+		
 		Intent intent = new Intent(getActivity(), ChatwithService.class);
 		getActivity().bindService(intent, serviceConnection, Context.BIND_IMPORTANT);
 		Log.v(TAG, "PersonFragmentonResume");
@@ -107,7 +118,10 @@ public class PersonFragment extends Fragment {
 		Log.v(TAG, "PersonFragmentonCreate");
 
 		userface=(ImageView)view4.findViewById(R.id.userface);
-
+		if(app.getUser(getString(R.string.userFileName)).getSex()==1)
+			userface.setImageResource(R.drawable.boy);
+		else 
+			userface.setImageResource(R.drawable.girl);
 		composerButtonsWrapper = (RelativeLayout) view4
 				.findViewById(R.id.composer_buttons_wrapper);
 		composerButtonsShowHideButton = (RelativeLayout) view4
@@ -117,18 +131,18 @@ public class PersonFragment extends Fragment {
 		setListener();
 
 		change_tel = (TextView) view4.findViewById(R.id.change_tel);
-		change_tel.setText(FloatApplication.getApp().getUser(getString(R.string.userFileName)).getPhoneNo());
+		change_tel.setText(app.getUser(getString(R.string.userFileName)).getPhoneNo());
 		name2 = (TextView) view4.findViewById(R.id.name2);
-		name2.setText(FloatApplication.getApp().getUser(getString(R.string.userFileName)).getNickName());
+		name2.setText(app.getUser(getString(R.string.userFileName)).getNickName());
 		school = (TextView) view4.findViewById(R.id.school);
 		//学校的名称
 		schoolcontent = (TextView) view4.findViewById(R.id.schoolcontent);
-		schoolcontent.setText(FloatApplication.getApp().getUser(getString(R.string.userFileName)).getSchool());
+		schoolcontent.setText(app.getUser(getString(R.string.userFileName)).getSchool());
 		sex_edit = (TextView) view4.findViewById(R.id.sex);
-		if(FloatApplication.getApp().getUser(getString(R.string.userFileName)).getSex()==0){
+		if(app.getUser(getString(R.string.userFileName)).getSex()==0){
 			sex_edit.setText("我是美女");
 		}
-		if(FloatApplication.getApp().getUser(getString(R.string.userFileName)).getSex()==1){
+		if(app.getUser(getString(R.string.userFileName)).getSex()==1){
 			sex_edit.setText("我是帅哥");
 		}
 		
@@ -254,22 +268,22 @@ public class PersonFragment extends Fragment {
 	}
 	
 	// @Override
-	public void onActivityResult(int requestCode, int resultCode, Intent data) {
-		// TODO Auto-generated method stub
-		super.onActivityResult(requestCode, resultCode, data);
-		if (requestCode == 0 && resultCode == 0 && null != data) {
-			Bundle bun = data.getExtras();
-			change_tel.setText(bun.getString("tel"));
-			name2.setText(bun.getString("name"));
-			if(FloatApplication.getApp().getUser(getString(R.string.userFileName)).getSex()==0){
-				sex_edit.setText("我是美女");userface.setImageResource(R.drawable.girl);
-			}
-			if(FloatApplication.getApp().getUser(getString(R.string.userFileName)).getSex()==1){
-				sex_edit.setText("我是帅哥");userface.setImageResource(R.drawable.boy);
-			}
-			schoolcontent.setText( bun.getString("school"));
-
-		}
-	}
+//	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+//		// TODO Auto-generated method stub
+//		super.onActivityResult(requestCode, resultCode, data);
+//		if (requestCode == 0 && resultCode == 0 && null != data) {
+//			Bundle bun = data.getExtras();
+//			change_tel.setText(bun.getString("tel"));
+//			name2.setText(bun.getString("name"));
+//			if(FloatApplication.getApp().getUser(getString(R.string.userFileName)).getSex()==0){
+//				sex_edit.setText("我是美女");userface.setImageResource(R.drawable.girl);
+//			}
+//			if(FloatApplication.getApp().getUser(getString(R.string.userFileName)).getSex()==1){
+//				sex_edit.setText("我是帅哥");userface.setImageResource(R.drawable.boy);
+//			}
+//			schoolcontent.setText( bun.getString("school"));
+//
+//		}
+//	}
 
 }

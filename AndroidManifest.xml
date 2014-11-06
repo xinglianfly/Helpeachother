@@ -30,6 +30,7 @@
         <activity
             android:name="cn.edu.sdu.online.activity.SplashActivity"
             android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar"
             >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -91,6 +92,11 @@
         </activity>
          <activity android:name="cn.edu.sdu.online.activity.ChatClient" 
              android:screenOrientation="portrait">
+        </activity>
+         <activity android:name="cn.edu.sdu.online.activity.DialogActivity" 
+             android:screenOrientation="portrait"
+             android:theme="@android:style/Theme.Dialog"
+             >
         </activity>
           <service android:name="cn.edu.sdu.online.chatservice.ChatwithService">
         </service>
