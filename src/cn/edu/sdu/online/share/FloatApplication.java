@@ -29,7 +29,7 @@ import cn.edu.sdu.online.entity.User;
 import cn.edu.sdu.online.sqlite.PersistService;
 
 public class FloatApplication extends Application {
-
+	private String TAG = "FloatApplication";
 	public static FloatApplication app;
 	private WindowManager.LayoutParams windowParams = new WindowManager.LayoutParams();
 	private boolean bound = false;
@@ -46,6 +46,7 @@ public class FloatApplication extends Application {
 		app = this;
 		Intent intent = new Intent(this, ChatwithService.class);
 		startService(intent);
+		Log.v(TAG, "service in application");
 	}
 
 	public static PersistService getPersistInstence() {

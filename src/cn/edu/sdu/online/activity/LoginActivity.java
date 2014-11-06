@@ -73,21 +73,20 @@ public class LoginActivity extends Activity implements View.OnClickListener {
 		requestWindowFeature(Window.FEATURE_NO_TITLE);// 隐藏标题
 		setContentView(R.layout.login_activity);
 		sp = PreferenceManager.getDefaultSharedPreferences(this);
-		if (sp.getBoolean("first_run", true)) {
-			Intent intent = new Intent(this, UserGuideActivity.class);
-			startActivity(intent);
-			Editor editor = sp.edit();
-			editor.putBoolean("first_run", false);
-			editor.commit();
-		}
 		findView();
 		getSize();
 		setSize();
 		getRememberMe(isRemember);
-		Intent intent = new Intent(LoginActivity.this, ChatwithService.class);
-		bindService(intent, serviceConnection, BIND_IMPORTANT);
-
 	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		Intent sIntent = new Intent(LoginActivity.this, ChatwithService.class);
+		bindService(sIntent, serviceConnection, BIND_IMPORTANT
+				| BIND_AUTO_CREATE);
+
+	};
 
 	ServiceConnection serviceConnection = new ServiceConnection() {
 
@@ -102,13 +101,15 @@ public class LoginActivity extends Activity implements View.OnClickListener {
 			// TODO Auto-generated method stub
 			ChatBinder binder = (ChatBinder) service;
 			chatservice = binder.getService();
+			Log.v(TAG, "BIND chatservice" + chatservice);
 			bound = true;
 		}
 	};
 
 	protected void onPause() {
 		super.onPause();
-		unbindService(serviceConnection);
+		if (bound)
+			unbindService(serviceConnection);
 	};
 
 	// 设置控件绝对大小
@@ -170,7 +171,6 @@ public class LoginActivity extends Activity implements View.OnClickListener {
 		editPass = (EditText) findViewById(R.id.login_edittext_password);
 
 		checkRemember = (CheckBox) findViewById(R.id.login_checkbox_remember);
-		// checkRemember.setOnClickListener(this);
 		checkRemember.setTag(3);
 
 	}
@@ -199,16 +199,12 @@ public class LoginActivity extends Activity implements View.OnClickListener {
 			initUser();// 从输入框得到数据
 			dialog = DialogUtil.createLoadingDialog(this, "请稍后...");
 			dialog.show();
-
 			Thread loginTh = new Thread(new loginThread());
 			loginTh.start();
-
 			break;
 		case 2:
-
 			Intent it = new Intent(LoginActivity.this, RegisterActivity.class);
 			startActivity(it);
-
 			break;
 		case 3:
 			isRemember = checkRemember.isChecked();
@@ -413,11 +409,17 @@ public class LoginActivity extends Activity implements View.OnClickListener {
 			String password = loginUser.getPassword();
 			Log.v(TAG, username + "username");
 			Log.v(TAG, password + "password");
-			if (!chatservice.getConnection().isConnected()) {
-				chatservice.connect();
-			}
-			chatservice.login(ConvertString.convert(username), password);
+			Log.v(TAG, chatservice + "CHATSERVICE");
 
+			if (bound) {
+				Log.v(TAG,
+						"ChatService connection" + chatservice.getConnection());
+				if (!chatservice.getConnection().isConnected()) {
+					chatservice.connect();
+				}
+				chatservice.login(ConvertString.convert(username), password);
+
+			}
 		}
 
 	}

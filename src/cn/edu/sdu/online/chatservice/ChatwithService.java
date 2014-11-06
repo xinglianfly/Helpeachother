@@ -213,6 +213,8 @@ public class ChatwithService extends Service {
 
 	// 登陆smack的服务器
 	public boolean login(String username, String password) {
+		Log.v(TAG, "执行了login");
+		Log.v(TAG, "username"+username);
 		try {
 			connection.login(username, password);
 			this.username = username;
@@ -238,9 +240,10 @@ public class ChatwithService extends Service {
 
 	// 接收到消息的时候做的处理，一将收的的消息存到数据库，然后从数据库中读出未读的消息
 	public void initChatManager() {
+		Log.v(TAG, "initeManager 执行了");
 		listeners = new HashSet<ContentListener>();
 		chatManager = ChatManager.getInstanceFor(connection);
-		Log.v(TAG, "CHATMANAGER");
+		Log.v(TAG, "CHATMANAGER"+chatManager);
 		chatManager.addChatListener(new ChatManagerListener() {
 			@Override
 			public void chatCreated(Chat chat, boolean createdLocally) {

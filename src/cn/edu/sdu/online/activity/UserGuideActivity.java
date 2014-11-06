@@ -5,6 +5,7 @@ import java.util.List;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -51,8 +52,12 @@ public class UserGuideActivity extends Activity {
 		setContentView(pager);
 		pager.setOnPageChangeListener(new OnPageChangeListener() {
 			public void onPageSelected(int arg0) {
-				if(arg0 == views.size()-1)
+				if(arg0 == views.size()-1){
+					Intent intent = new Intent();
+					intent.setClass(UserGuideActivity.this, LoginActivity.class);
+					startActivity(intent);
 					UserGuideActivity.this.finish();
+				}
 			}
 			public void onPageScrolled(int arg0, float arg1, int arg2) {}
 			public void onPageScrollStateChanged(int arg0) {}

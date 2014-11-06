@@ -69,13 +69,6 @@ public class FragmentTabsPager extends FragmentActivity {
 	private WindowManager windowManager = null;
 	private WindowManager.LayoutParams windowManagerParams = null;
 	private FloatView floatView = null;
-	private boolean bound = false;
-	private ChatwithService chatservice;
-	private final String SHARE_LOGIN_TAG = "MAP_SHARE_LOGIN_TAG";
-	private String SHARE_LOGIN_EMAIL = "MAP_LOGIN_EMAIL";
-
-	/** 如果登录成功后,用于保存PASSWORD到SharedPreferences,以便下次不再输入 */
-	private String SHARE_LOGIN_PASSWORD = "MAP_LOGIN_PASSWORD";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
