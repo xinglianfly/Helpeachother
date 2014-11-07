@@ -508,9 +508,13 @@ public class PublishTaskActivity extends Activity {
 				task.setContent(edittext_describe.getText().toString());
 				int aw = awardStatus;
 				task.setAwardStatus(aw);
-
-				task.setTipAward(Integer.parseInt(input_money_award.getText()
-						.toString()));
+try {
+	task.setTipAward(Integer.parseInt(input_money_award.getText()
+			.toString()));
+} catch (Exception e) {
+	// TODO: handle exception
+}
+				
 
 				task.setSpiritAward(input_spirit_award.getText().toString()
 						+ "");
