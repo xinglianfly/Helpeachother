@@ -85,7 +85,7 @@ public class LoginActivity extends Activity implements View.OnClickListener,
 		getSize();
 		setSize();
 		getRememberMe(isRemember);
-		
+
 	}
 
 	// 定位初始化
@@ -485,6 +485,10 @@ public class LoginActivity extends Activity implements View.OnClickListener,
 			System.out.println(amapLocation.getStreet() + "street");
 			Toast.makeText(this, amapLocation.getStreet() + "street",
 					Toast.LENGTH_LONG).show();
+			SharedPreferences share = getSharedPreferences(SHARE_LOGIN_TAG,
+					MODE_PRIVATE);
+			share.edit().putString("location", amapLocation.getStreet())
+					.commit();
 		}
 	}
 }
