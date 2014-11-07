@@ -11,6 +11,7 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -193,6 +194,7 @@ public class ReleaseTask extends Fragment {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
+				view.setBackgroundColor(Color.WHITE);
 				Bundle bundle = new Bundle();
 				 bundle.putSerializable("task", taskListFromNet.get(position-1));
 				// Log.v(TAG,"taskList.get(position):"+taskList.get(position).getContent() );
