@@ -78,7 +78,12 @@ public class PersonFragment extends Fragment {
 			userface.setImageResource(R.drawable.boy);
 		else 
 			userface.setImageResource(R.drawable.girl);
-		
+		if(app.getUser(getString(R.string.userFileName)).getSex()==0){
+			sex_edit.setText("我是美女");
+		}
+		if(app.getUser(getString(R.string.userFileName)).getSex()==1){
+			sex_edit.setText("我是帅哥");
+		}
 		
 		Intent intent = new Intent(getActivity(), ChatwithService.class);
 		getActivity().bindService(intent, serviceConnection, Context.BIND_IMPORTANT);
@@ -233,21 +238,11 @@ public class PersonFragment extends Fragment {
 			// 修改资料
 			Intent intent = new Intent(getActivity(),
 					ChangePersonActivity.class);
-			if (sex_edit.getText().toString().equals(sexs[1].trim()))
-				sex = 1;
-			Bundle bun = new Bundle();
-			bun.putString("name", name2.getText().toString());
-			bun.putString("tel", change_tel.getText().toString());
-			String str2 = schoolcontent.getText().toString();
-			bun.putString("school", str2);
-			bun.putInt("sex", sex);
-			intent.putExtras(bun);
 			startActivityForResult(intent, 0);
 
 		}
 		if (i == 4) {
 
-System.out.println("333333");
 
 
 			Intent sendIntent = new Intent();
@@ -260,7 +255,6 @@ System.out.println("333333");
 		}
 		if (i == 5) {
 
-System.out.println("44444");
 
 
 			// 退出

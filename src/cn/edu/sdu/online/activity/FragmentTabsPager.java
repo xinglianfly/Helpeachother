@@ -28,6 +28,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -69,6 +70,8 @@ public class FragmentTabsPager extends FragmentActivity {
 	private WindowManager windowManager = null;
 	private WindowManager.LayoutParams windowManagerParams = null;
 	private FloatView floatView = null;
+	private int width;
+	private int height;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -113,7 +116,11 @@ public class FragmentTabsPager extends FragmentActivity {
 		if (savedInstanceState != null) {
 			mTabHost.setCurrentTabByTag(savedInstanceState.getString("tab"));
 		}
-		
+		 DisplayMetrics metric = new DisplayMetrics();
+	        getWindowManager().getDefaultDisplay().getMetrics(metric);
+	         width = metric.widthPixels;  // 屏幕宽度（像素）
+	         height = metric.heightPixels;  // 屏幕高度（像素）
+
 
 	}
 	
@@ -148,8 +155,11 @@ public class FragmentTabsPager extends FragmentActivity {
 		windowManagerParams.flags = LayoutParams.FLAG_NOT_TOUCH_MODAL
 				| LayoutParams.FLAG_NOT_FOCUSABLE;
 		windowManagerParams.gravity = Gravity.LEFT | Gravity.TOP;
-		windowManagerParams.x = 800;
-		windowManagerParams.y = 900;
+		
+		
+		
+		windowManagerParams.x = 8;
+		windowManagerParams.y = height-260;
 		windowManagerParams.width = LayoutParams.WRAP_CONTENT;
 		windowManagerParams.height = LayoutParams.WRAP_CONTENT;
 		windowManager.addView(floatView, windowManagerParams);

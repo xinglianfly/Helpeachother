@@ -4,6 +4,12 @@ package cn.edu.sdu.online.view;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+
+
+
+
+
+import cn.edu.sdu.online.R;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -11,6 +17,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.View.MeasureSpec;
 import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
 import android.view.animation.RotateAnimation;
@@ -19,25 +26,24 @@ import android.widget.AbsListView.OnScrollListener;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import cn.edu.sdu.online.R;
 
 public class RefreshListView extends ListView implements OnScrollListener {
 
-	private int downY;		// ����ʱy���ƫ����
-	private View headerView;		// ͷ����
-	private int headerViewHeight;	// ͷ���ֵĸ߶�
-	private int firstVisibleItemPosition;		// ����ʱ������ʾ�ڶ�����item��position
-	private DisplayMode currentState = DisplayMode.Pull_Down;		// ͷ���ֵ�ǰ��״̬, ȱʡֵΪ����״̬
-	private Animation upAnim,downAnim,loadAnim;		// ������ת�Ķ���,������ת�Ķ���,ˢ������ʱload����
-	private ImageView ivArrow;		// ͷ���ֵļ�ͷ
-	private TextView tvState;		// ͷ����ˢ��״̬
-	private ImageView loading_img_header,loading_img_footer;	// ͷ���ֺͽŲ��ֵĽ�����
-	private TextView tvLastUpdateTime;	// ͷ���ֵ����ˢ��ʱ��
+	private int downY;		// 按下时y轴的偏移量
+	private View headerView;		// 头布局
+	private int headerViewHeight;	// 头布局的高度
+	private int firstVisibleItemPosition;		// 滚动时界面显示在顶部的item的position
+	private DisplayMode currentState = DisplayMode.Pull_Down;		// 头布局当前的状态, 缺省值为下拉状态
+	private Animation upAnim,downAnim,loadAnim;		// 向上旋转的动画,向下旋转的动画,刷新数据时load动画
+	private ImageView ivArrow;		// 头布局的箭头
+	private TextView tvState;		// 头布局刷新状态
+	private ImageView loading_img_header,loading_img_footer;	// 头布局和脚布局的进度条
+	private TextView tvLastUpdateTime;	// 头布局的最后刷新时间
 	private OnRefreshListener mOnRefreshListener;
-	private boolean isScroll2Bottom = false;	// �Ƿ�������ײ�
-	private View footerView;		// �Ų���
-	private int footerViewHeight;	// �Ų��ֵĸ߶�
-	private boolean isLoadMoving = false;	// �Ƿ����ڼ��ظ�����
+	private boolean isScroll2Bottom = false;	// 是否滚动到底部
+	private View footerView;		// 脚布局
+	private int footerViewHeight;	// 脚布局的高度
+	private boolean isLoadMoving = false;	// 是否正在加载更多中
 
 	public RefreshListView(Context context, AttributeSet attrs) {
 		super(context, attrs);
@@ -48,7 +54,7 @@ public class RefreshListView extends ListView implements OnScrollListener {
 	}
 	
 	/**
-	 * ��ʼ���Ų���
+	 * 初始化脚布局
 	 */
 	private void initFooter() {
 		
@@ -56,20 +62,20 @@ public class RefreshListView extends ListView implements OnScrollListener {
 		
 		loading_img_footer=(ImageView) footerView.findViewById(R.id.pb_listview_footer_progress);
 		
-		measureView(footerView);		// ����һ�½Ų��ֵĸ߶�
+		measureView(footerView);		// 测量一下脚布局的高度
 		
 		footerViewHeight = footerView.getMeasuredHeight();
 		
-		footerView.setPadding(0, -footerViewHeight, 0, 0);		// ���ؽŲ���
+		footerView.setPadding(0, -footerViewHeight, 0, 0);		// 隐藏脚布局
 		
 		this.addFooterView(footerView);
 	}
 
 	/**
-	 * ��ʼ��ͷ����
+	 * 初始化头布局
 	 */
 	private void initHeader() {
-		//ͷ��
+		//头部
 		headerView = LayoutInflater.from(getContext()).inflate(R.layout.activity_listview_refresh_header, null);
 		
 		ivArrow = (ImageView) headerView.findViewById(R.id.iv_listview_header_down_arrow);
@@ -79,14 +85,14 @@ public class RefreshListView extends ListView implements OnScrollListener {
 		
 		
 		ivArrow.setMinimumWidth(50);
-		tvLastUpdateTime.setText("�ϴ�ˢ��ʱ��: " + getLastUpdateTime());
+		tvLastUpdateTime.setText("上次刷新时间: " + getLastUpdateTime());
 		
 		measureView(headerView);
 		headerViewHeight = headerView.getMeasuredHeight();
 		
-		Log.i("RefreshListView", "ͷ���ֵĸ߶�: " + headerViewHeight);
+		Log.i("RefreshListView", "头布局的高度: " + headerViewHeight);
 		
-		headerView.setPadding(0, -headerViewHeight, 0, 0);  // ����ͷ����
+		headerView.setPadding(0, -headerViewHeight, 0, 0);  // 隐藏头布局
 		
 		this.addHeaderView(headerView);
 		
@@ -94,7 +100,7 @@ public class RefreshListView extends ListView implements OnScrollListener {
 	}
 	
 	/**
-	 * ������ˢ�µ�ʱ��
+	 * 获得最后刷新的时间
 	 * @return
 	 */
 	private String getLastUpdateTime() {
@@ -103,27 +109,27 @@ public class RefreshListView extends ListView implements OnScrollListener {
 	}
 	
 	/**
-	 * ��ʼ����ˢ��ʱ��ͷ����
+	 * 初始下拉刷新时箭头动画
 	 */
 	private void initAnimation() {
-		//����
+		//向上
 		upAnim = new RotateAnimation(0, -180, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
 		upAnim.setDuration(500);
-		upAnim.setFillAfter(true);//�������ʼ״̬
-		//����
+		upAnim.setFillAfter(true);//不保存初始状态
+		//向下
 		downAnim = new RotateAnimation(-180, -360, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
 		downAnim.setDuration(500);
 		downAnim.setFillAfter(true);
-		//ˢ������ʱload����
+		//刷新数据时load动画
 		loadAnim=new RotateAnimation(0, 359, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
 		loadAnim.setDuration(2000);
-		loadAnim.setInterpolator(new LinearInterpolator());//����
+		loadAnim.setInterpolator(new LinearInterpolator());//匀速
 		loadAnim.setFillAfter(true);
 		loadAnim.setRepeatCount(-1);
 	}
 	
 	/**
-	 * ����������View�Ŀ�͸�, ����֮��, ���Եõ�view�Ŀ�͸�
+	 * 测量给定的View的宽和高, 测量之后, 可以得到view的宽和高
 	 * @param child
 	 */
 	private void measureView(View child) {
@@ -155,11 +161,11 @@ public class RefreshListView extends ListView implements OnScrollListener {
 		case MotionEvent.ACTION_MOVE:
 			
 			if(currentState == DisplayMode.Refreshing) {
-				// ��ǰ��״̬������ˢ����, ��ִ����������
+				// 当前的状态是正在刷新中, 不执行下拉操作
 				break;
 			}
 			
-			int moveY = (int) ev.getY();	// �ƶ��е�y���ƫ����
+			int moveY = (int) ev.getY();	// 移动中的y轴的偏移量
 			
 			int diffY = moveY - downY;
 			
@@ -167,15 +173,15 @@ public class RefreshListView extends ListView implements OnScrollListener {
 			
 			if(firstVisibleItemPosition == 0&& paddingTop > -headerViewHeight) {
 				/**
-				 * paddingTop > 0   ��ȫ��ʾ
-				 * currentState == DisplayMode.Pull_Down ����������״̬ʱ
+				 * paddingTop > 0   完全显示
+				 * currentState == DisplayMode.Pull_Down 当是在下拉状态时
 				 */
-				if(paddingTop > 0&& currentState == DisplayMode.Pull_Down) {		// ��ȫ��ʾ, ���뵽ˢ��״̬  
-					Log.i("RefreshListView", "�ɿ�ˢ��");
-					currentState = DisplayMode.Release_Refresh;		// �ѵ�ǰ��״̬��Ϊ�ɿ�ˢ��
+				if(paddingTop > 0&& currentState == DisplayMode.Pull_Down) {		// 完全显示, 进入到刷新状态  
+					Log.i("RefreshListView", "松开刷新");
+					currentState = DisplayMode.Release_Refresh;		// 把当前的状态改为松开刷新
 					refreshHeaderViewState();
-				} else if(paddingTop < 0&& currentState == DisplayMode.Release_Refresh) {		// û����ȫ��ʾ, ���뵽����״̬
-					Log.i("RefreshListView", "����ˢ��");
+				} else if(paddingTop < 0&& currentState == DisplayMode.Release_Refresh) {		// 没有完全显示, 进入到下拉状态
+					Log.i("RefreshListView", "下拉刷新");
 					currentState = DisplayMode.Pull_Down;
 					refreshHeaderViewState();
 				}
@@ -185,12 +191,12 @@ public class RefreshListView extends ListView implements OnScrollListener {
 			}
 			break;
 		case MotionEvent.ACTION_UP:
-			
 			int down = (int) ev.getY();
-			if(currentState == DisplayMode.Pull_Down) {		// �ɿ�ʱ, ��ǰ��ʾ��״̬Ϊ����״̬, ִ������headerView�Ĳ���
+			
+			if(currentState == DisplayMode.Pull_Down) {		// 松开时, 当前显示的状态为下拉状态, 执行隐藏headerView的操作
 				
 				headerView.setPadding(0, -headerViewHeight, 0, 0);
-			} else if(currentState == DisplayMode.Release_Refresh) {	// �ɿ�ʱ, ��ǰ��ʾ��״̬Ϊ�ɿ�ˢ��״̬, ִ��ˢ�µĲ���
+			} else if(currentState == DisplayMode.Release_Refresh) {	// 松开时, 当前显示的状态为松开刷新状态, 执行刷新的操作
 				headerView.setPadding(0, 0, 0, 0);
 				currentState = DisplayMode.Refreshing;
 				refreshHeaderViewState();
@@ -198,13 +204,13 @@ public class RefreshListView extends ListView implements OnScrollListener {
 				if(mOnRefreshListener != null) {
 					mOnRefreshListener.onRefresh();
 				}
-			}
-			if ( (down-downY )> 2)// ��ֹonclick
+			}if ( (down-downY )> 2)// 阻止onclick
 			{
 				downY = -1;
 				return true;
 			}
 			downY = -1;
+			
 			break;
 
 		default:
@@ -214,60 +220,60 @@ public class RefreshListView extends ListView implements OnScrollListener {
 	}
 	
 	/**
-	 * ��ˢ������ִ�����ʱ, �ص��˷���, ȥˢ�½���
+	 * 当刷新任务执行完毕时, 回调此方法, 去刷新界面
 	 */
 	public void onRefreshFinish() {
-		if(isLoadMoving) {	// ���ؽŲ���
+		if(isLoadMoving) {	// 隐藏脚布局
 			loading_img_footer.clearAnimation();
 			isLoadMoving = false;
 			isScroll2Bottom = false;
 			footerView.setPadding(0, -footerViewHeight, 0, 0);
-		} else {	// ����ͷ����
+		} else {	// 隐藏头布局
 			headerView.setPadding(0, -headerViewHeight, 0, 0);
 			loading_img_header.clearAnimation();
 			loading_img_header.setVisibility(View.GONE);
 			ivArrow.setVisibility(View.VISIBLE);
-			tvState.setText("刷新中....");
+			tvState.setText("下拉刷新");
 			tvLastUpdateTime.setText("上次刷新时间: " + getLastUpdateTime());
 			currentState = DisplayMode.Pull_Down;
 		}
 	}
 	
 	/**
-	 * ˢ��ͷ���ֵ�״̬
+	 * 刷新头布局的状态
 	 */
 	private void refreshHeaderViewState() {
-		if(currentState == DisplayMode.Pull_Down) {	// ��ǰ��������״̬
+		if(currentState == DisplayMode.Pull_Down) {	// 当前进入下拉状态
 			ivArrow.startAnimation(downAnim);
 			tvState.setText("下拉刷新");
-		} else if(currentState == DisplayMode.Release_Refresh) { //��ǰ�����ɿ�ˢ��״̬
+		} else if(currentState == DisplayMode.Release_Refresh) { //当前进入松开刷新状态
 			ivArrow.startAnimation(upAnim);
-			tvState.setText("释放加载");
-		} else if(currentState == DisplayMode.Refreshing) {  //��ǰ��������ˢ����
+			tvState.setText("释放立即刷新");
+		} else if(currentState == DisplayMode.Refreshing) {  //当前进入正在刷新中
 			ivArrow.clearAnimation();
 			ivArrow.setVisibility(View.GONE);
 			loading_img_header.setVisibility(View.VISIBLE);
 			loading_img_header.startAnimation(loadAnim);
-			tvState.setText("加载中.....");
+			tvState.setText("正在获取新内容");
 		}
 	}
 
 	/**
-	 * ˢ��ͷ���ֵ�״̬
-	 * ��ListView����״̬�ı�ʱ�ص�
-	 * SCROLL_STATE_IDLE		// ��ListView����ֹͣʱ
-	 * SCROLL_STATE_TOUCH_SCROLL // ��ListView��������ʱ
-	 * SCROLL_STATE_FLING		// ���ٵĹ���(��ָ���ٵĴ����ƶ�)
+	 * 刷新头布局的状态
+	 * 当ListView滚动状态改变时回调
+	 * SCROLL_STATE_IDLE		// 当ListView滚动停止时
+	 * SCROLL_STATE_TOUCH_SCROLL // 当ListView触摸滚动时
+	 * SCROLL_STATE_FLING		// 快速的滚动(手指快速的触摸移动)
 	 */
 	@Override
 	public void onScrollStateChanged(AbsListView view, int scrollState) {
 
 		if(scrollState == OnScrollListener.SCROLL_STATE_IDLE || scrollState == OnScrollListener.SCROLL_STATE_FLING) {
-			if(isScroll2Bottom && !isLoadMoving) {		// �������ײ�
-				// ���ظ���
+			if(isScroll2Bottom && !isLoadMoving) {		// 滚动到底部
+				// 加载更多
 				loading_img_footer.startAnimation(loadAnim);
 				footerView.setPadding(0, 0, 0, 0);
-				this.setSelection(this.getCount());		// ������ListView�ĵײ�
+				this.setSelection(this.getCount());		// 滚动到ListView的底部
 				isLoadMoving = true;
 				
 				if(mOnRefreshListener != null) {
@@ -278,10 +284,10 @@ public class RefreshListView extends ListView implements OnScrollListener {
 	}
 
 	/**
-	 * ��ListView����ʱ����
-	 * firstVisibleItem ��Ļ����ʾ�ĵ�һ��Item��position
-	 * visibleItemCount ��ǰ��Ļ��ʾ���ܸ���
-	 * totalItemCount   ListView��������
+	 * 当ListView滚动时触发
+	 * firstVisibleItem 屏幕上显示的第一个Item的position
+	 * visibleItemCount 当前屏幕显示的总个数
+	 * totalItemCount   ListView的总条数
 	 */
 	@Override
 	public void onScroll(AbsListView view, int firstVisibleItem,int visibleItemCount, int totalItemCount) {
@@ -290,7 +296,7 @@ public class RefreshListView extends ListView implements OnScrollListener {
 		Log.i("RefreshListView", "onScroll: " + firstVisibleItem + ", " + visibleItemCount + ", " + totalItemCount);
 		
 		if((firstVisibleItem + visibleItemCount) >= totalItemCount&& totalItemCount > 0) {
-			Log.i("RefreshListView", "���ظ���");
+			Log.i("RefreshListView", "加载更多");
 			isScroll2Bottom = true;
 		} else {
 			isScroll2Bottom = false;
@@ -299,19 +305,18 @@ public class RefreshListView extends ListView implements OnScrollListener {
 	
 	/**
 	 * @author andong
-	 * ����ͷ���ļ�����ʾ״̬
+	 * 下拉头部的几种显示状态
 	 */
 	public enum DisplayMode {
-		Pull_Down, // ����ˢ�µ�״̬
-		Release_Refresh, // �ɿ�ˢ�µ�״̬
-		Refreshing	// ����ˢ���е�״̬
+		Pull_Down, // 下拉刷新的状态
+		Release_Refresh, // 松开刷新的状态
+		Refreshing	// 正在刷新中的状态
 	}
 	
 	/**
-	 * ����ˢ�µļ����¼�
+	 * 设置刷新的监听事件
 	 * @param listener
 	 */
 	public void setOnRefreshListener(OnRefreshListener listener) {
 		this.mOnRefreshListener = listener;
-	}
-}
+	}}

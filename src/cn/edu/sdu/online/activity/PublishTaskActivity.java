@@ -4,6 +4,8 @@ import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -82,8 +84,8 @@ public class PublishTaskActivity extends Activity {
 	Button button_selecttime;
 	Button button_selectdate;
 	String deadline, deadtime;
-	
-	//返回按钮
+
+	// 返回按钮
 	ImageView button_back_image;
 	TextView button_back_text;
 
@@ -147,9 +149,9 @@ public class PublishTaskActivity extends Activity {
 
 		t = (TextView) findViewById(R.id.first_second_text);
 		s = (TextView) findViewById(R.id.spirit_second_text);
-		
-		button_back_image=(ImageView) findViewById(R.id.publish_button_back);
-		button_back_text=(TextView)findViewById(R.id.publish_button_back_text);
+
+		button_back_image = (ImageView) findViewById(R.id.publish_button_back);
+		button_back_text = (TextView) findViewById(R.id.publish_button_back_text);
 		button_back_image.setOnClickListener(new BackListener());
 		button_back_text.setOnClickListener(new BackListener());
 		// addDesL = (LinearLayout) findViewById(R.id.adddesLayout);
@@ -226,13 +228,39 @@ public class PublishTaskActivity extends Activity {
 				if (!input_money_award.getText().toString().equals("")) {
 					// firstshow.setVisibility(View.INVISIBLE);
 					// secondshow.setVisibility(View.VISIBLE);
-					t.setText(input_money_award.getText().toString() + "元小费");
+					String inputmoney = input_money_award.getText().toString();
+					Pattern pattern = Pattern.compile("[0-9]{1,}");
+					Matcher matcher = pattern
+							.matcher((CharSequence) inputmoney);
+					if (matcher.matches()) {
+						t.setText(input_money_award.getText().toString()
+								+ "元小费");
+					} else {
+						new AlertDialog.Builder(PublishTaskActivity.this)
+								.setTitle("请输入标准的数字格式").setPositiveButton("确定",
+
+								new Dialog.OnClickListener() {
+
+									@Override
+									public void onClick(DialogInterface dialog,
+											int which) {
+
+									}
+								}).create().show();
+					}
+
 					s.setText("");
 
 					awardStatus = 0;
 					// TODO　这里需要加是否是整数的判断
-					award_money = Integer.parseInt(input_money_award.getText()
-							.toString());
+					try {
+						award_money = Integer.parseInt(input_money_award
+								.getText().toString());
+
+					} catch (Exception e) {
+						// TODO: handle exception
+					}
+
 				}
 				money_first.setVisibility(View.GONE);
 				money_second.setVisibility(View.VISIBLE);
@@ -244,10 +272,9 @@ public class PublishTaskActivity extends Activity {
 		}
 
 	}
-	class BackListener implements OnClickListener
-	{
-		public void onClick(View v) 
-		{
+
+	class BackListener implements OnClickListener {
+		public void onClick(View v) {
 			PublishTaskActivity.this.finish();
 		}
 	}
@@ -481,28 +508,12 @@ public class PublishTaskActivity extends Activity {
 				task.setContent(edittext_describe.getText().toString());
 				int aw = awardStatus;
 				task.setAwardStatus(aw);
-				try {
-					task.setTipAward(Integer.parseInt(input_money_award
-							.getText().toString()));
-				} catch (Exception e) {
 
-				}
-				try {
-					task.setSpiritAward(input_spirit_award.getText().toString()
-							+ "");
-				} catch (Exception e) {
-					new AlertDialog.Builder(PublishTaskActivity.this)
-							.setTitle("请输入标准的数字格式").setPositiveButton("确定",
+				task.setTipAward(Integer.parseInt(input_money_award.getText()
+						.toString()));
 
-							new Dialog.OnClickListener() {
-
-								@Override
-								public void onClick(DialogInterface dialog,
-										int which) {
-
-								}
-							}).create().show();
-				}
+				task.setSpiritAward(input_spirit_award.getText().toString()
+						+ "");
 
 				Log.v(TAG, "limitTime" + limitTime);
 				task.setLimitTime(limitTime);

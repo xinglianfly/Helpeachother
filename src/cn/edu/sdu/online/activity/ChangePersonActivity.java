@@ -36,8 +36,8 @@ public class ChangePersonActivity extends Activity implements OnClickListener {
 	private EditText school;
 	private ImageView image;
 	Spinner spinner_sex1;
-	//Spinner spinner_name;
-	
+	// Spinner spinner_name;
+
 	ArrayAdapter<String> adapter1;
 	ArrayAdapter<String> adapter2;
 	String TAG = "ChangePersonActivity";
@@ -46,58 +46,65 @@ public class ChangePersonActivity extends Activity implements OnClickListener {
 	int sex = 0;// "0" is girl; "1" is boy;
 	int namenum = 0;
 	String[] sexs1 = { "我是美女", "我是帅哥" };
-	//String[] namespinner2 = { "  先生", "  小姐", "  同学" };
+	String[] sexs2 = { "我是帅哥", "我是美女" };
+	// String[] namespinner2 = { "  先生", "  小姐", "  同学" };
 	Dialog dialog;
-	FloatApplication app=FloatApplication.getApp();
-	User user ;
+	FloatApplication app = FloatApplication.getApp();
+	User user;
 
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		requestWindowFeature(Window.FEATURE_NO_TITLE);//隐藏标题
+		requestWindowFeature(Window.FEATURE_NO_TITLE);// 隐藏标题
 		setContentView(R.layout.change_information);
 		initialization();
 	}
 
 	private void initialization() {
-		user=app.getUser(getString(R.string.userFileName));
+		user = app.getUser(getString(R.string.userFileName));
 		baocun = (Button) findViewById(R.id.baocun);
 		quxiao = (Button) findViewById(R.id.quxiao);
 		change_tel = (EditText) findViewById(R.id.change_tel);
 		name2 = (EditText) findViewById(R.id.name2);
 		school = (EditText) findViewById(R.id.changeschool);
-		image=(ImageView)this.findViewById(R.id.userface);
-		if(user.getSex()==1)
+		image = (ImageView) this.findViewById(R.id.userface);
+		if (user.getSex() == 1)
 			image.setImageResource(R.drawable.boy);
 		else
-		image.setImageResource(R.drawable.girl);
-			
+			image.setImageResource(R.drawable.girl);
+
 		baocun.setOnClickListener(this);
 		quxiao.setOnClickListener(this);
-//		Intent intent = getIntent();
-//		Bundle bun = intent.getExtras();
+		// Intent intent = getIntent();
+		// Bundle bun = intent.getExtras();
 		// sex=intent.getIntExtra("sex1", 0);
 		// change_tel.setText(intent.getStringExtra("tel"));
 		// name2.setText(intent.getStringExtra("name"));
-//		sex = bun.getInt("sex1");
-//		change_tel.setText(bun.getString("tel"));
-//		name2.setText(bun.getString("name"));
-//		school.setText(bun.getString("school"));
-		change_tel.setText(app.getUser(getString(R.string.userFileName)).getPhoneNo());
-		name2.setText(app.getUser(getString(R.string.userFileName)).getNickName());
-		school.setText(app.getUser(getString(R.string.userFileName)).getSchool());
-		
-		
-		
-		// 组件初始化
+		// sex = bun.getInt("sex1");
+		// change_tel.setText(bun.getString("tel"));
+		// name2.setText(bun.getString("name"));
+		// school.setText(bun.getString("school"));
+		change_tel.setText(app.getUser(getString(R.string.userFileName))
+				.getPhoneNo());
+		name2.setText(app.getUser(getString(R.string.userFileName))
+				.getNickName());
+		school.setText(app.getUser(getString(R.string.userFileName))
+				.getSchool());
+
 		spinner_sex1 = (Spinner) findViewById(R.id.register_spinner_sex1);
-		//spinner_name = (Spinner) findViewById(R.id.register_spinner_name);
-		adapter1 = new MyArrayAdapter(ChangePersonActivity.this, sexs1);
-		//adapter2 = new MyArrayAdapter(ChangePersonActivity.this, namespinner2);
+		// 组件初始化
+		if (user.getSex() == 0)
+			adapter1 = new MyArrayAdapter(ChangePersonActivity.this, sexs1);
+		else
+			adapter1 = new MyArrayAdapter(ChangePersonActivity.this, sexs2);
+		// spinner_name = (Spinner) findViewById(R.id.register_spinner_name);
+
+		// adapter2 = new MyArrayAdapter(ChangePersonActivity.this,
+		// namespinner2);
 		// 下拉样式
 		// adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		// add
 		spinner_sex1.setAdapter(adapter1);
-		//spinner_name.setAdapter(adapter2);
+		// spinner_name.setAdapter(adapter2);
 		// 监听
 		spinner_sex1.setOnItemSelectedListener(new OnItemSelectedListener() {
 			@Override
@@ -105,7 +112,11 @@ public class ChangePersonActivity extends Activity implements OnClickListener {
 					int arg2, long arg3) {
 				// TODO Auto-generated method stub
 				sex = arg2;
-			app.getUser(getString(R.string.userFileName)).setSex(sex);
+				if (user.getSex() == 1)
+
+					sex = sex == 0 ? 1 : 0;
+
+				app.getUser(getString(R.string.userFileName)).setSex(sex);
 
 			}
 
@@ -115,40 +126,39 @@ public class ChangePersonActivity extends Activity implements OnClickListener {
 
 			}
 		});
-//		spinner_name.setOnItemSelectedListener(new OnItemSelectedListener() {
-//			@Override
-//			public void onItemSelected(AdapterView<?> arg0, View arg1,
-//					int arg2, long arg3) {
-//				// TODO Auto-generated method stub
-//				namenum = arg2;
-//			}
-//
-//			@Override
-//			public void onNothingSelected(AdapterView<?> arg0) {
-//				// TODO Auto-generated method stub
-//
-//			}
-//		});
+		// spinner_name.setOnItemSelectedListener(new OnItemSelectedListener() {
+		// @Override
+		// public void onItemSelected(AdapterView<?> arg0, View arg1,
+		// int arg2, long arg3) {
+		// // TODO Auto-generated method stub
+		// namenum = arg2;
+		// }
+		//
+		// @Override
+		// public void onNothingSelected(AdapterView<?> arg0) {
+		// // TODO Auto-generated method stub
+		//
+		// }
+		// });
 	}
 
 	@Override
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
 		if (v.getId() == R.id.baocun) {
-//			Intent intent = getIntent();
-//			Bundle bun = new Bundle();
-//			bun.putString("name", name2.getText().toString());
-//			bun.putString("tel", change_tel.getText().toString());
-//
-//			bun.putString("school", school.getText().toString());
-//			bun.putInt("sex1", sex);
-//			bun.putInt("nickname", namenum);
-//			// intent.putExtra("name", name2.getText().toString());
-//			// intent.putExtra("sex1",sex);
-//			// intent.putExtra("tel", change_tel.getText().toString());
-//			intent.putExtras(bun);
-//			ChangePersonActivity.this.setResult(0, intent);
-			
+			// Intent intent = getIntent();
+			// Bundle bun = new Bundle();
+			// bun.putString("name", name2.getText().toString());
+			// bun.putString("tel", change_tel.getText().toString());
+			//
+			// bun.putString("school", school.getText().toString());
+			// bun.putInt("sex1", sex);
+			// bun.putInt("nickname", namenum);
+			// // intent.putExtra("name", name2.getText().toString());
+			// // intent.putExtra("sex1",sex);
+			// // intent.putExtra("tel", change_tel.getText().toString());
+			// intent.putExtras(bun);
+			// ChangePersonActivity.this.setResult(0, intent);
 
 			user.setNickName(name2.getText().toString());
 			user.setPhoneNo(change_tel.getText().toString());
@@ -156,14 +166,18 @@ public class ChangePersonActivity extends Activity implements OnClickListener {
 			user.setSex(sex);
 			user.setId(FloatApplication.getApp()
 					.getUser(getString(R.string.userFileName)).getId());
-			Log.v(TAG, "nickName:"+user.getNickName()+"phoneNo:"+user.getPhoneNo()+"school:"+user.getSchool()+"sex:"+user.getSex()+"id:"+user.getId());
+			Log.v(TAG,
+					"nickName:" + user.getNickName() + "phoneNo:"
+							+ user.getPhoneNo() + "school:" + user.getSchool()
+							+ "sex:" + user.getSex() + "id:" + user.getId());
 			FloatApplication.getApp().setStoreUser(
 					getString(R.string.userFileName), user);
-			
+
 			// 开启对话框
-			dialog = DialogUtil.createLoadingDialog(ChangePersonActivity.this,"修改中...");
+			dialog = DialogUtil.createLoadingDialog(ChangePersonActivity.this,
+					"修改中...");
 			// 开启线程
-			dialog.show ();
+			dialog.show();
 			Thread thread = new Thread(new ChangeThread());
 			thread.start();
 			ChangePersonActivity.this.finish();
