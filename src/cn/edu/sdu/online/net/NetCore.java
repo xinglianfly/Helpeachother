@@ -20,8 +20,9 @@ import cn.edu.sdu.online.entity.Task;
 import cn.edu.sdu.online.entity.User;
 
 public class NetCore {
-	//private final static String ServerAddr = "http://211.87.226.153:8080/Dajiabang/";
-	 private final static String ServerAddr ="http://202.194.14.195:8080/Dajiabang/";
+
+	//private final static String ServerAddr = "http://211.87.226.165:8080/Dajiabang/";
+	 private final static String ServerAddr ="http://211.87.234.180:8080/Dajiabang/";
 
 	private final String LoginAddr = ServerAddr + "user/login";
 	private final String RegisteAddr = ServerAddr + "user/register";
@@ -102,9 +103,6 @@ public class NetCore {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		// int result = getJsonResult(jsonData);
-		// JsonObject jo=new JsonObject();
-		// jo.get
 		return jsonData;
 		// gson.
 	}
@@ -127,7 +125,6 @@ public class NetCore {
 		// 选填
 		
 		params.add(new BasicNameValuePair("user.nickName", user.getNickName()));
-		//params.add(new BasicNameValuePair("user.headphoto", user.getHeadphone()));
 
 		String result = "";
 		try {
@@ -137,11 +134,6 @@ public class NetCore {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		// Gson gson = new Gson();
-		// Map<String, Integer> map = new HashMap<String, Integer>();
-		// map = gson.fromJson(result, Map.class);
-		// double resultNum = map.get("result");
-		// System.out.println(resultNum);
 		return result;
 	}
 	/**
@@ -173,11 +165,7 @@ public class NetCore {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		// int result = getJsonResult(jsonData);
-		// JsonObject jo=new JsonObject();
-		// jo.get
 		return jsonData;
-		// gson.
 	}
 	/**
 	 * 获取任务列表（广场） *
@@ -185,9 +173,10 @@ public class NetCore {
 	 * @param stuNo
 	 *            用户stuNo
 	 */
-	public String GetNewTask(int numCursor) {
+	public String GetNewTask(int numCursor,String location) {
 		List<NameValuePair> params = new ArrayList<NameValuePair>();
 		params.add(new BasicNameValuePair("numCursor", numCursor + ""));
+		params.add(new BasicNameValuePair("location", location));
 		String result = "";
 		try {
 			result = GetResultFromNet(newListAddr, params);
@@ -198,10 +187,11 @@ public class NetCore {
 		}
 		return result;
 	}
-	public String GetSchoolTask(int numCursor,String school) {
+	public String GetSchoolTask(int numCursor,String school,String location) {
 		List<NameValuePair> params = new ArrayList<NameValuePair>();
 		params.add(new BasicNameValuePair("numCursor", numCursor + ""));
 		params.add(new BasicNameValuePair("school", school + ""));
+		params.add(new BasicNameValuePair("location", location));
 		String result = "";
 		try {
 			result = GetResultFromNet(newListOfSchoolAddr, params);
@@ -212,9 +202,10 @@ public class NetCore {
 		}
 		return result;
 	}
-	public String GetUrgeTask(int numCursor) {
+	public String GetUrgeTask(int numCursor,String location) {
 		List<NameValuePair> params = new ArrayList<NameValuePair>();
 		params.add(new BasicNameValuePair("numCursor", numCursor + ""));
+		params.add(new BasicNameValuePair("location", location));
 		String result = "";
 		try {
 			result = GetResultFromNet(urgencyListAddr, params);
@@ -225,9 +216,10 @@ public class NetCore {
 		}
 		return result;
 	}
-	public String GetTipTask(int numCursor) {
+	public String GetTipTask(int numCursor,String location) {
 		List<NameValuePair> params = new ArrayList<NameValuePair>();
 		params.add(new BasicNameValuePair("numCursor", numCursor + ""));
+		params.add(new BasicNameValuePair("location", location));
 		String result = "";
 		try {
 			result = GetResultFromNet(tipListAddr, params);
@@ -242,13 +234,11 @@ public class NetCore {
 	 * 获取任务列表（搜索） *
 	 * 
 	 */
-	public String GetTaskListByKey(String key,int numCursor) {
+	public String GetTaskListByKey(String key,int numCursor,String location) {
 		List<NameValuePair> params = new ArrayList<NameValuePair>();
 		params.add(new BasicNameValuePair("key", key + ""));
 		params.add(new BasicNameValuePair("numCursor", numCursor + ""));
-//		params.add(new BasicNameValuePair("xLocation", xLocation + ""));
-//		params.add(new BasicNameValuePair("yLocation", yLocation + ""));
-//		params.add(new BasicNameValuePair("location", location + ""));
+		params.add(new BasicNameValuePair("location", location));
 		String result = "";
 		try {
 			result = GetResultFromNet(SearchAddr, params);
@@ -260,28 +250,6 @@ public class NetCore {
 		return result;
 	}
 	
-//	/**
-//	 * 获取任务列表（摇） *
-//	 * 
-//	 */
-//	public String GetTaskListByLocation(float xLocation,
-//			float yLocation, String location) {
-//		List<NameValuePair> params = new ArrayList<NameValuePair>();
-//		
-//		params.add(new BasicNameValuePair("xLocation", xLocation + ""));
-//		params.add(new BasicNameValuePair("yLocation", yLocation + ""));
-//		params.add(new BasicNameValuePair("location", location + ""));
-//		String result = "";
-//		try {
-//			result = GetResultFromNet(ShakeAddr, params);
-//		} catch (ClientProtocolException e) {
-//			e.printStackTrace();
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
-//		return result;
-//	}
-//	
 	
 	/**
 	 * 获取任务的所有信息
@@ -324,25 +292,6 @@ public class NetCore {
 		return result;
 	}
 	
-//	/**
-//	 * 获取已接受任务列表
-//	 * 
-//	 * @param userId
-//	 *            用户id
-//	 */
-//	public String GetRecieveDealList(String userId) {
-//		List<NameValuePair> params = new ArrayList<NameValuePair>();
-//		params.add(new BasicNameValuePair("id", userId));
-//		String result = "";
-//		try {
-//			result = GetResultFromNet(ShowRecieveAddr, params);
-//		} catch (ClientProtocolException e) {
-//			e.printStackTrace();
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
-//		return result;
-//	}
 	
 	/**
 	 * 设置已完成

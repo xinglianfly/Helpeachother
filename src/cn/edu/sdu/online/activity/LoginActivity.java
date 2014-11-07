@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
@@ -33,9 +34,14 @@ import cn.edu.sdu.online.share.FloatApplication;
 import cn.edu.sdu.online.util.ConvertString;
 import cn.edu.sdu.online.util.DialogUtil;
 
+import com.amap.api.location.AMapLocation;
+import com.amap.api.location.AMapLocationListener;
+import com.amap.api.location.LocationManagerProxy;
+import com.amap.api.location.LocationProviderProxy;
 import com.tencent.tauth.Tencent;
 
-public class LoginActivity extends Activity implements View.OnClickListener {
+public class LoginActivity extends Activity implements View.OnClickListener,
+		AMapLocationListener {
 	private String TAG = "LoginActivity";
 	private User loginUser = new User();
 	private double screenWidth, screenHight, density;
@@ -65,6 +71,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
 	boolean isRemember = true;
 	private boolean bound = false;
 	private ChatwithService chatservice;
+	private LocationManagerProxy mLocationManagerProxy;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -81,10 +88,27 @@ public class LoginActivity extends Activity implements View.OnClickListener {
 		requestWindowFeature(Window.FEATURE_NO_TITLE);// 隐藏标题
 		setContentView(R.layout.login_activity);
 		sp = PreferenceManager.getDefaultSharedPreferences(this);
+		initLocation();
 		findView();
 		getSize();
 		setSize();
 		getRememberMe(isRemember);
+
+	}
+
+	// 定位初始化
+	private void initLocation() {
+		// 初始化定位，只采用网络定位
+		mLocationManagerProxy = LocationManagerProxy.getInstance(this);
+		mLocationManagerProxy.setGpsEnable(false);
+		// 此方法为每隔固定时间会发起一次定位请求，为了减少电量消耗或网络流量消耗，
+		// 注意设置合适的定位时间的间隔（最小间隔支持为2000ms），并且在合适时间调用removeUpdates()方法来取消定位请求
+		// 在定位结束后，在合适的生命周期调用destroy()方法
+		// 其中如果间隔时间为-1，则定位只定一次,
+		// 在单次定位情况下，定位无论成功与否，都无需调用removeUpdates()方法移除请求，定位sdk内部会移除
+		mLocationManagerProxy.requestLocationData(
+				LocationProviderProxy.AMapNetwork, 60 * 1000, 15, this);
+		System.out.println("执行力initLocation");
 	}
 
 	@Override
@@ -118,6 +142,10 @@ public class LoginActivity extends Activity implements View.OnClickListener {
 		super.onPause();
 		if (bound)
 			unbindService(serviceConnection);
+		// 移除定位请求
+		mLocationManagerProxy.removeUpdates(this);
+		// 销毁定位
+		mLocationManagerProxy.destroy();
 	};
 
 	// 设置控件绝对大小
@@ -432,4 +460,43 @@ public class LoginActivity extends Activity implements View.OnClickListener {
 
 	}
 
+	@Override
+	public void onLocationChanged(Location location) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void onStatusChanged(String provider, int status, Bundle extras) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void onProviderEnabled(String provider) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void onProviderDisabled(String provider) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void onLocationChanged(AMapLocation amapLocation) {
+		// TODO Auto-generated method stub
+		if (amapLocation != null
+				&& amapLocation.getAMapException().getErrorCode() == 0) {
+			// 定位成功回调信息，设置相关消息
+			System.out.println(amapLocation.getStreet() + "street");
+			Toast.makeText(this, amapLocation.getStreet() + "street",
+					Toast.LENGTH_LONG).show();
+			SharedPreferences share = getSharedPreferences(SHARE_LOGIN_TAG,
+					MODE_PRIVATE);
+			share.edit().putString("location", amapLocation.getStreet())
+					.commit();
+		}
+	}
 }

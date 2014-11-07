@@ -11,18 +11,40 @@
         android:id="@+id/publish_area_bar"
         android:layout_width="fill_parent"
         android:layout_height="60dp"
-        android:background="#00b2b2"
+        android:background="#66d0a6"
         >
-	<TextView
-		android:id="@+id/title"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:layout_centerHorizontal="true"
-		android:layout_centerVertical="true"
-		android:text="发布"
-		android:textColor="@color/color_white"
-		android:background="#00b2b2"
-		android:textSize="9pt" />
+        
+        <ImageView 
+			android:id="@+id/publish_button_back"
+            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:src="@drawable/back_button"
+
+            />
+        
+        <TextView 
+            android:id="@+id/publish_button_back_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="9pt"
+            android:layout_toRightOf="@+id/publish_button_back"
+            android:layout_centerVertical="true"
+            android:text="返回"
+            android:textColor="#fff"
+            />
+        
+		<TextView
+			android:id="@+id/title"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_centerHorizontal="true"
+			android:layout_centerVertical="true"
+			android:text="发布"
+			android:textColor="@color/color_white"
+
+			android:textSize="9pt" />
+		
 	</RelativeLayout>
 	
 <ScrollView

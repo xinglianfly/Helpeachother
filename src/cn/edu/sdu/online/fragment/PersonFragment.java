@@ -189,9 +189,7 @@ public class PersonFragment extends Fragment {
 					// composerButtonsShowHideButton.startAnimation(MyAnimations.getMiniAnimation(300));
 
 					if (areButtonsShowing) {
-						composerButtonsShowHideButtonIcon
-								.startAnimation(MyAnimations
-										.getRotateAnimation(-225, 0, 300));
+						composerButtonsShowHideButtonIcon.startAnimation(MyAnimations.getRotateAnimation(-225, 0, 300));
 						smallIcon.startAnimation(MyAnimations
 								.getMaxAnimation(400));
 						for (int j = 0; j < composerButtonsWrapper
@@ -248,6 +246,10 @@ public class PersonFragment extends Fragment {
 
 		}
 		if (i == 4) {
+
+System.out.println("333333");
+
+
 			Intent sendIntent = new Intent();
 			sendIntent.setAction(Intent.ACTION_SEND);
 			sendIntent.putExtra(Intent.EXTRA_TEXT,
@@ -257,11 +259,15 @@ public class PersonFragment extends Fragment {
 
 		}
 		if (i == 5) {
+
+System.out.println("44444");
+
+
 			// 退出
 			chatservice.disconnect();
 			SharedPreferences share = getActivity().getSharedPreferences(SHARE_LOGIN_TAG, Context.MODE_PRIVATE);
 			share.edit().putBoolean(SHARE_LOGIN_SUCCESS, false).commit();
-			getActivity().unbindService(serviceConnection);
+//			getActivity().unbindService(serviceConnection);
 			getActivity().finish();
 		}
 

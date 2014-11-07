@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -47,23 +49,16 @@ public class SquareFragment extends Fragment implements OnClickListener {
 
 	@Override
 	public void onResume() {
-		// TODO Auto-generated method stub
-		// startThread = true;
-		// taskList.clear();
 		Log.v(TAG, "squareFragmentonResume");
 		if (mylistviewAdapter != null) {
 			mylistviewAdapter.notifyDataSetChanged();
 		}
-		// showListByCatogryId(StaticValues.MULTIPLE);
-
 		super.onResume();
 
 	}
 
 	LayoutInflater inflater;
 	RefreshListView refreshListView;// 刷新列表
-	// private List<ImageAndText> showTaskList = new
-	// ArrayList<ImageAndText>();// 用于显示的任务列表
 	private List<Task> taskList = new ArrayList<Task>();// 解析得到的任务列表
 	private MylistviewAdapter mylistviewAdapter;
 	private String TAG = "SquareFragment";
@@ -71,7 +66,7 @@ public class SquareFragment extends Fragment implements OnClickListener {
 	private View view;
 	private Button button1, button2, button3, button4;
 	private Boolean bu1 = true, bu2 = true, bu3 = true, bu4 = true;
-
+	private final String SHARE_LOGIN_TAG = "MAP_SHARE_LOGIN_TAG";
 	private final static int GET_TASK_LIST = 0;
 	private Handler myHandler = new Handler() {
 
@@ -134,7 +129,11 @@ public class SquareFragment extends Fragment implements OnClickListener {
 		initListView();
 
 	}
-
+	private String getLocation(){
+		SharedPreferences share  = getActivity().getSharedPreferences(SHARE_LOGIN_TAG, Context.MODE_PRIVATE);
+		String location = share.getString("location", "");
+		return location;
+	}
 	private void initListView() {
 		mylistviewAdapter = new MylistviewAdapter(getActivity(), taskList);
 		refreshListView.setAdapter(mylistviewAdapter);
@@ -151,7 +150,7 @@ public class SquareFragment extends Fragment implements OnClickListener {
 						// 做刷新的地方
 						// 请求新数据并加入Tasklist
 
-						String jsonResult = new NetCore().GetNewTask(0);
+						String jsonResult = new NetCore().GetNewTask(0,getLocation());
 
 						// 解析jsonResult,初始化tasklist
 						taskList.clear();
@@ -186,7 +185,7 @@ public class SquareFragment extends Fragment implements OnClickListener {
 						SystemClock.sleep(2000);
 						// 坐加载的地方
 						String jsonResult = new NetCore().GetNewTask(taskList
-								.size());
+								.size(),getLocation());
 
 						// 解析jsonResult,初始化tasklist
 						
@@ -249,13 +248,13 @@ public class SquareFragment extends Fragment implements OnClickListener {
 
 				String jsonResult;
 				if (id == R.id.button1) {
-					jsonResult = new NetCore().GetNewTask(0);
+					jsonResult = new NetCore().GetNewTask(0,getLocation());
 				} else if (id == R.id.button2) {
-					jsonResult = new NetCore().GetSchoolTask(0, school);
+					jsonResult = new NetCore().GetSchoolTask(0, school,getLocation());
 				} else if (id == R.id.button3) {
-					jsonResult = new NetCore().GetUrgeTask(0);
+					jsonResult = new NetCore().GetUrgeTask(0,getLocation());
 				} else {
-					jsonResult = new NetCore().GetTipTask(0);
+					jsonResult = new NetCore().GetTipTask(0,getLocation());
 				}
 				Log.v(TAG, jsonResult);
 				taskList.clear();
@@ -285,30 +284,11 @@ public class SquareFragment extends Fragment implements OnClickListener {
 		}.execute(new Void[] {});
 	}
 
-	// private void initShowTaskList(List<Task> taskList) {
-	// for (int i = 0; i < taskList.size(); i++) {
-	//
-	// String content = taskList.get(i).getContent();
-	//
-	// // int awardCatgory = taskList.get(i).getAwardCatogry();
-	// String award = taskList.get(i).getSpiritAward();
-	//
-	// String deadLine = taskList.get(i).getLimitTime();
-	// // String imageName = taskList.get(i).getHeadPhoto();
-	// // String imageUrl = NetCore.DownloadPictruesAddr + "/" + userId +
-	// // "/"
-	// // + imageName;
-	// // showTaskList.add(new ImageAndText("", "", content,
-	// // award, deadLine));
-	// }
-	//
-	// }
-
 	private class SearchThread implements Runnable {
 
 		@Override
 		public void run() {
-			String jsonResult = new NetCore().GetNewTask(0);
+			String jsonResult = new NetCore().GetNewTask(0,getLocation());
 			Log.v(TAG, jsonResult);
 			// 解析jsonResult,初始化tasklist
 			List<Task> list = new ParseJson().getTaskListFromJson(jsonResult);
@@ -322,11 +302,9 @@ public class SquareFragment extends Fragment implements OnClickListener {
 try {
 	Log.v(TAG, taskList.get(0).getContent() + "  " + taskList.size());
 } catch (Exception e) {
-	// TODO: handle exception
 }
 			
 			// 初始化showTaskList
-			// initShowTaskList(taskList);
 			Message message = new Message();
 			message.what = GET_TASK_LIST;
 			myHandler.sendMessage(message);

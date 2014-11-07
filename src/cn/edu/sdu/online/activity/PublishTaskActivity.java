@@ -82,6 +82,10 @@ public class PublishTaskActivity extends Activity {
 	Button button_selecttime;
 	Button button_selectdate;
 	String deadline, deadtime;
+	
+	//返回按钮
+	ImageView button_back_image;
+	TextView button_back_text;
 
 	TextView t;
 	TextView s;
@@ -143,6 +147,11 @@ public class PublishTaskActivity extends Activity {
 
 		t = (TextView) findViewById(R.id.first_second_text);
 		s = (TextView) findViewById(R.id.spirit_second_text);
+		
+		button_back_image=(ImageView) findViewById(R.id.publish_button_back);
+		button_back_text=(TextView)findViewById(R.id.publish_button_back_text);
+		button_back_image.setOnClickListener(new BackListener());
+		button_back_text.setOnClickListener(new BackListener());
 		// addDesL = (LinearLayout) findViewById(R.id.adddesLayout);
 		// addDescri = (ImageView) findViewById(R.id.adddesc_button);
 		// addDescri.setOnClickListener(new addDescListener());
@@ -234,6 +243,13 @@ public class PublishTaskActivity extends Activity {
 
 		}
 
+	}
+	class BackListener implements OnClickListener
+	{
+		public void onClick(View v) 
+		{
+			PublishTaskActivity.this.finish();
+		}
 	}
 
 	class spiritListener implements OnClickListener {

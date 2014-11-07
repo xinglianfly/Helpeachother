@@ -10,6 +10,8 @@
 	<classpathentry kind="lib" path="libs/gson-2.2.4.jar"/>
 	<classpathentry kind="lib" path="libs/org.apache.httpcomponents.httpcore_4.3.jar"/>
 	<classpathentry kind="lib" path="libs/umeng-feedback-v4.3.jar"/>
+	<classpathentry kind="lib" path="libs/AMap_3DMap_V2.3.0.jar"/>
+	<classpathentry kind="lib" path="libs/Android_Location_V1.3.0.jar"/>
 	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.LIBRARIES"/>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="gen"/>
