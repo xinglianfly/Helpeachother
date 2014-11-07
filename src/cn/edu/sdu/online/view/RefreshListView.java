@@ -23,21 +23,21 @@ import cn.edu.sdu.online.R;
 
 public class RefreshListView extends ListView implements OnScrollListener {
 
-	private int downY;		// °´ÏÂÊ±yÖáµÄÆ«ÒÆÁ¿
-	private View headerView;		// Í·²¼¾Ö
-	private int headerViewHeight;	// Í·²¼¾ÖµÄ¸ß¶È
-	private int firstVisibleItemPosition;		// ¹ö¶¯Ê±½çÃæÏÔÊ¾ÔÚ¶¥²¿µÄitemµÄposition
-	private DisplayMode currentState = DisplayMode.Pull_Down;		// Í·²¼¾Öµ±Ç°µÄ×´Ì¬, È±Ê¡ÖµÎªÏÂÀ­×´Ì¬
-	private Animation upAnim,downAnim,loadAnim;		// ÏòÉÏÐý×ªµÄ¶¯»­,ÏòÏÂÐý×ªµÄ¶¯»­,Ë¢ÐÂÊý¾ÝÊ±load¶¯»­
-	private ImageView ivArrow;		// Í·²¼¾ÖµÄ¼ýÍ·
-	private TextView tvState;		// Í·²¼¾ÖË¢ÐÂ×´Ì¬
-	private ImageView loading_img_header,loading_img_footer;	// Í·²¼¾ÖºÍ½Å²¼¾ÖµÄ½ø¶ÈÌõ
-	private TextView tvLastUpdateTime;	// Í·²¼¾ÖµÄ×îºóË¢ÐÂÊ±¼ä
+	private int downY;		// ï¿½ï¿½ï¿½ï¿½Ê±yï¿½ï¿½ï¿½Æ«ï¿½ï¿½ï¿½ï¿½
+	private View headerView;		// Í·ï¿½ï¿½ï¿½ï¿½
+	private int headerViewHeight;	// Í·ï¿½ï¿½ï¿½ÖµÄ¸ß¶ï¿½
+	private int firstVisibleItemPosition;		// ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¾ï¿½Ú¶ï¿½ï¿½ï¿½ï¿½ï¿½itemï¿½ï¿½position
+	private DisplayMode currentState = DisplayMode.Pull_Down;		// Í·ï¿½ï¿½ï¿½Öµï¿½Ç°ï¿½ï¿½×´Ì¬, È±Ê¡ÖµÎªï¿½ï¿½ï¿½ï¿½×´Ì¬
+	private Animation upAnim,downAnim,loadAnim;		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×ªï¿½Ä¶ï¿½ï¿½ï¿½,ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×ªï¿½Ä¶ï¿½ï¿½ï¿½,Ë¢ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê±loadï¿½ï¿½ï¿½ï¿½
+	private ImageView ivArrow;		// Í·ï¿½ï¿½ï¿½ÖµÄ¼ï¿½Í·
+	private TextView tvState;		// Í·ï¿½ï¿½ï¿½ï¿½Ë¢ï¿½ï¿½×´Ì¬
+	private ImageView loading_img_header,loading_img_footer;	// Í·ï¿½ï¿½ï¿½ÖºÍ½Å²ï¿½ï¿½ÖµÄ½ï¿½ï¿½ï¿½ï¿½ï¿½
+	private TextView tvLastUpdateTime;	// Í·ï¿½ï¿½ï¿½Öµï¿½ï¿½ï¿½ï¿½Ë¢ï¿½ï¿½Ê±ï¿½ï¿½
 	private OnRefreshListener mOnRefreshListener;
-	private boolean isScroll2Bottom = false;	// ÊÇ·ñ¹ö¶¯µ½µ×²¿
-	private View footerView;		// ½Å²¼¾Ö
-	private int footerViewHeight;	// ½Å²¼¾ÖµÄ¸ß¶È
-	private boolean isLoadMoving = false;	// ÊÇ·ñÕýÔÚ¼ÓÔØ¸ü¶àÖÐ
+	private boolean isScroll2Bottom = false;	// ï¿½Ç·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×²ï¿½
+	private View footerView;		// ï¿½Å²ï¿½ï¿½ï¿½
+	private int footerViewHeight;	// ï¿½Å²ï¿½ï¿½ÖµÄ¸ß¶ï¿½
+	private boolean isLoadMoving = false;	// ï¿½Ç·ï¿½ï¿½ï¿½ï¿½Ú¼ï¿½ï¿½Ø¸ï¿½ï¿½ï¿½ï¿½ï¿½
 
 	public RefreshListView(Context context, AttributeSet attrs) {
 		super(context, attrs);
@@ -48,7 +48,7 @@ public class RefreshListView extends ListView implements OnScrollListener {
 	}
 	
 	/**
-	 * ³õÊ¼»¯½Å²¼¾Ö
+	 * ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½Å²ï¿½ï¿½ï¿½
 	 */
 	private void initFooter() {
 		
@@ -56,20 +56,20 @@ public class RefreshListView extends ListView implements OnScrollListener {
 		
 		loading_img_footer=(ImageView) footerView.findViewById(R.id.pb_listview_footer_progress);
 		
-		measureView(footerView);		// ²âÁ¿Ò»ÏÂ½Å²¼¾ÖµÄ¸ß¶È
+		measureView(footerView);		// ï¿½ï¿½ï¿½ï¿½Ò»ï¿½Â½Å²ï¿½ï¿½ÖµÄ¸ß¶ï¿½
 		
 		footerViewHeight = footerView.getMeasuredHeight();
 		
-		footerView.setPadding(0, -footerViewHeight, 0, 0);		// Òþ²Ø½Å²¼¾Ö
+		footerView.setPadding(0, -footerViewHeight, 0, 0);		// ï¿½ï¿½ï¿½Ø½Å²ï¿½ï¿½ï¿½
 		
 		this.addFooterView(footerView);
 	}
 
 	/**
-	 * ³õÊ¼»¯Í·²¼¾Ö
+	 * ï¿½ï¿½Ê¼ï¿½ï¿½Í·ï¿½ï¿½ï¿½ï¿½
 	 */
 	private void initHeader() {
-		//Í·²¿
+		//Í·ï¿½ï¿½
 		headerView = LayoutInflater.from(getContext()).inflate(R.layout.activity_listview_refresh_header, null);
 		
 		ivArrow = (ImageView) headerView.findViewById(R.id.iv_listview_header_down_arrow);
@@ -79,14 +79,14 @@ public class RefreshListView extends ListView implements OnScrollListener {
 		
 		
 		ivArrow.setMinimumWidth(50);
-		tvLastUpdateTime.setText("ÉÏ´ÎË¢ÐÂÊ±¼ä: " + getLastUpdateTime());
+		tvLastUpdateTime.setText("ï¿½Ï´ï¿½Ë¢ï¿½ï¿½Ê±ï¿½ï¿½: " + getLastUpdateTime());
 		
 		measureView(headerView);
 		headerViewHeight = headerView.getMeasuredHeight();
 		
-		Log.i("RefreshListView", "Í·²¼¾ÖµÄ¸ß¶È: " + headerViewHeight);
+		Log.i("RefreshListView", "Í·ï¿½ï¿½ï¿½ÖµÄ¸ß¶ï¿½: " + headerViewHeight);
 		
-		headerView.setPadding(0, -headerViewHeight, 0, 0);  // Òþ²ØÍ·²¼¾Ö
+		headerView.setPadding(0, -headerViewHeight, 0, 0);  // ï¿½ï¿½ï¿½ï¿½Í·ï¿½ï¿½ï¿½ï¿½
 		
 		this.addHeaderView(headerView);
 		
@@ -94,7 +94,7 @@ public class RefreshListView extends ListView implements OnScrollListener {
 	}
 	
 	/**
-	 * »ñµÃ×îºóË¢ÐÂµÄÊ±¼ä
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ë¢ï¿½Âµï¿½Ê±ï¿½ï¿½
 	 * @return
 	 */
 	private String getLastUpdateTime() {
@@ -103,27 +103,27 @@ public class RefreshListView extends ListView implements OnScrollListener {
 	}
 	
 	/**
-	 * ³õÊ¼ÏÂÀ­Ë¢ÐÂÊ±¼ýÍ·¶¯»­
+	 * ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½Ë¢ï¿½ï¿½Ê±ï¿½ï¿½Í·ï¿½ï¿½ï¿½ï¿½
 	 */
 	private void initAnimation() {
-		//ÏòÉÏ
+		//ï¿½ï¿½ï¿½ï¿½
 		upAnim = new RotateAnimation(0, -180, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
 		upAnim.setDuration(500);
-		upAnim.setFillAfter(true);//²»±£´æ³õÊ¼×´Ì¬
-		//ÏòÏÂ
+		upAnim.setFillAfter(true);//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¼×´Ì¬
+		//ï¿½ï¿½ï¿½ï¿½
 		downAnim = new RotateAnimation(-180, -360, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
 		downAnim.setDuration(500);
 		downAnim.setFillAfter(true);
-		//Ë¢ÐÂÊý¾ÝÊ±load¶¯»­
+		//Ë¢ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê±loadï¿½ï¿½ï¿½ï¿½
 		loadAnim=new RotateAnimation(0, 359, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
 		loadAnim.setDuration(2000);
-		loadAnim.setInterpolator(new LinearInterpolator());//ÔÈËÙ
+		loadAnim.setInterpolator(new LinearInterpolator());//ï¿½ï¿½ï¿½ï¿½
 		loadAnim.setFillAfter(true);
 		loadAnim.setRepeatCount(-1);
 	}
 	
 	/**
-	 * ²âÁ¿¸ø¶¨µÄViewµÄ¿íºÍ¸ß, ²âÁ¿Ö®ºó, ¿ÉÒÔµÃµ½viewµÄ¿íºÍ¸ß
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Viewï¿½Ä¿ï¿½Í¸ï¿½, ï¿½ï¿½ï¿½ï¿½Ö®ï¿½ï¿½, ï¿½ï¿½ï¿½ÔµÃµï¿½viewï¿½Ä¿ï¿½Í¸ï¿½
 	 * @param child
 	 */
 	private void measureView(View child) {
@@ -155,11 +155,11 @@ public class RefreshListView extends ListView implements OnScrollListener {
 		case MotionEvent.ACTION_MOVE:
 			
 			if(currentState == DisplayMode.Refreshing) {
-				// µ±Ç°µÄ×´Ì¬ÊÇÕýÔÚË¢ÐÂÖÐ, ²»Ö´ÐÐÏÂÀ­²Ù×÷
+				// ï¿½ï¿½Ç°ï¿½ï¿½×´Ì¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ë¢ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½Ö´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 				break;
 			}
 			
-			int moveY = (int) ev.getY();	// ÒÆ¶¯ÖÐµÄyÖáµÄÆ«ÒÆÁ¿
+			int moveY = (int) ev.getY();	// ï¿½Æ¶ï¿½ï¿½Ðµï¿½yï¿½ï¿½ï¿½Æ«ï¿½ï¿½ï¿½ï¿½
 			
 			int diffY = moveY - downY;
 			
@@ -167,15 +167,15 @@ public class RefreshListView extends ListView implements OnScrollListener {
 			
 			if(firstVisibleItemPosition == 0&& paddingTop > -headerViewHeight) {
 				/**
-				 * paddingTop > 0   ÍêÈ«ÏÔÊ¾
-				 * currentState == DisplayMode.Pull_Down µ±ÊÇÔÚÏÂÀ­×´Ì¬Ê±
+				 * paddingTop > 0   ï¿½ï¿½È«ï¿½ï¿½Ê¾
+				 * currentState == DisplayMode.Pull_Down ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×´Ì¬Ê±
 				 */
-				if(paddingTop > 0&& currentState == DisplayMode.Pull_Down) {		// ÍêÈ«ÏÔÊ¾, ½øÈëµ½Ë¢ÐÂ×´Ì¬  
-					Log.i("RefreshListView", "ËÉ¿ªË¢ÐÂ");
-					currentState = DisplayMode.Release_Refresh;		// °Ñµ±Ç°µÄ×´Ì¬¸ÄÎªËÉ¿ªË¢ÐÂ
+				if(paddingTop > 0&& currentState == DisplayMode.Pull_Down) {		// ï¿½ï¿½È«ï¿½ï¿½Ê¾, ï¿½ï¿½ï¿½ëµ½Ë¢ï¿½ï¿½×´Ì¬  
+					Log.i("RefreshListView", "ï¿½É¿ï¿½Ë¢ï¿½ï¿½");
+					currentState = DisplayMode.Release_Refresh;		// ï¿½Ñµï¿½Ç°ï¿½ï¿½×´Ì¬ï¿½ï¿½Îªï¿½É¿ï¿½Ë¢ï¿½ï¿½
 					refreshHeaderViewState();
-				} else if(paddingTop < 0&& currentState == DisplayMode.Release_Refresh) {		// Ã»ÓÐÍêÈ«ÏÔÊ¾, ½øÈëµ½ÏÂÀ­×´Ì¬
-					Log.i("RefreshListView", "ÏÂÀ­Ë¢ÐÂ");
+				} else if(paddingTop < 0&& currentState == DisplayMode.Release_Refresh) {		// Ã»ï¿½ï¿½ï¿½ï¿½È«ï¿½ï¿½Ê¾, ï¿½ï¿½ï¿½ëµ½ï¿½ï¿½ï¿½ï¿½×´Ì¬
+					Log.i("RefreshListView", "ï¿½ï¿½ï¿½ï¿½Ë¢ï¿½ï¿½");
 					currentState = DisplayMode.Pull_Down;
 					refreshHeaderViewState();
 				}
@@ -187,10 +187,10 @@ public class RefreshListView extends ListView implements OnScrollListener {
 		case MotionEvent.ACTION_UP:
 			
 			int down = (int) ev.getY();
-			if(currentState == DisplayMode.Pull_Down) {		// ËÉ¿ªÊ±, µ±Ç°ÏÔÊ¾µÄ×´Ì¬ÎªÏÂÀ­×´Ì¬, Ö´ÐÐÒþ²ØheaderViewµÄ²Ù×÷
+			if(currentState == DisplayMode.Pull_Down) {		// ï¿½É¿ï¿½Ê±, ï¿½ï¿½Ç°ï¿½ï¿½Ê¾ï¿½ï¿½×´Ì¬Îªï¿½ï¿½ï¿½ï¿½×´Ì¬, Ö´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½headerViewï¿½Ä²ï¿½ï¿½ï¿½
 				
 				headerView.setPadding(0, -headerViewHeight, 0, 0);
-			} else if(currentState == DisplayMode.Release_Refresh) {	// ËÉ¿ªÊ±, µ±Ç°ÏÔÊ¾µÄ×´Ì¬ÎªËÉ¿ªË¢ÐÂ×´Ì¬, Ö´ÐÐË¢ÐÂµÄ²Ù×÷
+			} else if(currentState == DisplayMode.Release_Refresh) {	// ï¿½É¿ï¿½Ê±, ï¿½ï¿½Ç°ï¿½ï¿½Ê¾ï¿½ï¿½×´Ì¬Îªï¿½É¿ï¿½Ë¢ï¿½ï¿½×´Ì¬, Ö´ï¿½ï¿½Ë¢ï¿½ÂµÄ²ï¿½ï¿½ï¿½
 				headerView.setPadding(0, 0, 0, 0);
 				currentState = DisplayMode.Refreshing;
 				refreshHeaderViewState();
@@ -199,7 +199,7 @@ public class RefreshListView extends ListView implements OnScrollListener {
 					mOnRefreshListener.onRefresh();
 				}
 			}
-			if ( (down-downY )> 2)// ×èÖ¹onclick
+			if ( (down-downY )> 2)// ï¿½ï¿½Ö¹onclick
 			{
 				downY = -1;
 				return true;
@@ -214,60 +214,60 @@ public class RefreshListView extends ListView implements OnScrollListener {
 	}
 	
 	/**
-	 * µ±Ë¢ÐÂÈÎÎñÖ´ÐÐÍê±ÏÊ±, »Øµ÷´Ë·½·¨, È¥Ë¢ÐÂ½çÃæ
+	 * ï¿½ï¿½Ë¢ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö´ï¿½ï¿½ï¿½ï¿½ï¿½Ê±, ï¿½Øµï¿½ï¿½Ë·ï¿½ï¿½ï¿½, È¥Ë¢ï¿½Â½ï¿½ï¿½ï¿½
 	 */
 	public void onRefreshFinish() {
-		if(isLoadMoving) {	// Òþ²Ø½Å²¼¾Ö
+		if(isLoadMoving) {	// ï¿½ï¿½ï¿½Ø½Å²ï¿½ï¿½ï¿½
 			loading_img_footer.clearAnimation();
 			isLoadMoving = false;
 			isScroll2Bottom = false;
 			footerView.setPadding(0, -footerViewHeight, 0, 0);
-		} else {	// Òþ²ØÍ·²¼¾Ö
+		} else {	// ï¿½ï¿½ï¿½ï¿½Í·ï¿½ï¿½ï¿½ï¿½
 			headerView.setPadding(0, -headerViewHeight, 0, 0);
 			loading_img_header.clearAnimation();
 			loading_img_header.setVisibility(View.GONE);
 			ivArrow.setVisibility(View.VISIBLE);
-			tvState.setText("ÏÂÀ­Ë¢ÐÂ");
-			tvLastUpdateTime.setText("ÉÏ´ÎË¢ÐÂÊ±¼ä: " + getLastUpdateTime());
+			tvState.setText("åˆ·æ–°ä¸­....");
+			tvLastUpdateTime.setText("ä¸Šæ¬¡åˆ·æ–°æ—¶é—´: " + getLastUpdateTime());
 			currentState = DisplayMode.Pull_Down;
 		}
 	}
 	
 	/**
-	 * Ë¢ÐÂÍ·²¼¾ÖµÄ×´Ì¬
+	 * Ë¢ï¿½ï¿½Í·ï¿½ï¿½ï¿½Öµï¿½×´Ì¬
 	 */
 	private void refreshHeaderViewState() {
-		if(currentState == DisplayMode.Pull_Down) {	// µ±Ç°½øÈëÏÂÀ­×´Ì¬
+		if(currentState == DisplayMode.Pull_Down) {	// ï¿½ï¿½Ç°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×´Ì¬
 			ivArrow.startAnimation(downAnim);
-			tvState.setText("ÏÂÀ­Ë¢ÐÂ");
-		} else if(currentState == DisplayMode.Release_Refresh) { //µ±Ç°½øÈëËÉ¿ªË¢ÐÂ×´Ì¬
+			tvState.setText("ä¸‹æ‹‰åˆ·æ–°");
+		} else if(currentState == DisplayMode.Release_Refresh) { //ï¿½ï¿½Ç°ï¿½ï¿½ï¿½ï¿½ï¿½É¿ï¿½Ë¢ï¿½ï¿½×´Ì¬
 			ivArrow.startAnimation(upAnim);
-			tvState.setText("ÊÍ·ÅÁ¢¼´Ë¢ÐÂ");
-		} else if(currentState == DisplayMode.Refreshing) {  //µ±Ç°½øÈëÕýÔÚË¢ÐÂÖÐ
+			tvState.setText("é‡Šæ”¾åŠ è½½");
+		} else if(currentState == DisplayMode.Refreshing) {  //ï¿½ï¿½Ç°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ë¢ï¿½ï¿½ï¿½ï¿½
 			ivArrow.clearAnimation();
 			ivArrow.setVisibility(View.GONE);
 			loading_img_header.setVisibility(View.VISIBLE);
 			loading_img_header.startAnimation(loadAnim);
-			tvState.setText("ÕýÔÚ»ñÈ¡ÐÂÄÚÈÝ");
+			tvState.setText("åŠ è½½ä¸­.....");
 		}
 	}
 
 	/**
-	 * Ë¢ÐÂÍ·²¼¾ÖµÄ×´Ì¬
-	 * µ±ListView¹ö¶¯×´Ì¬¸Ä±äÊ±»Øµ÷
-	 * SCROLL_STATE_IDLE		// µ±ListView¹ö¶¯Í£Ö¹Ê±
-	 * SCROLL_STATE_TOUCH_SCROLL // µ±ListView´¥Ãþ¹ö¶¯Ê±
-	 * SCROLL_STATE_FLING		// ¿ìËÙµÄ¹ö¶¯(ÊÖÖ¸¿ìËÙµÄ´¥ÃþÒÆ¶¯)
+	 * Ë¢ï¿½ï¿½Í·ï¿½ï¿½ï¿½Öµï¿½×´Ì¬
+	 * ï¿½ï¿½ListViewï¿½ï¿½ï¿½ï¿½×´Ì¬ï¿½Ä±ï¿½Ê±ï¿½Øµï¿½
+	 * SCROLL_STATE_IDLE		// ï¿½ï¿½ListViewï¿½ï¿½ï¿½ï¿½Í£Ö¹Ê±
+	 * SCROLL_STATE_TOUCH_SCROLL // ï¿½ï¿½ListViewï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê±
+	 * SCROLL_STATE_FLING		// ï¿½ï¿½ï¿½ÙµÄ¹ï¿½ï¿½ï¿½(ï¿½ï¿½Ö¸ï¿½ï¿½ï¿½ÙµÄ´ï¿½ï¿½ï¿½ï¿½Æ¶ï¿½)
 	 */
 	@Override
 	public void onScrollStateChanged(AbsListView view, int scrollState) {
 
 		if(scrollState == OnScrollListener.SCROLL_STATE_IDLE || scrollState == OnScrollListener.SCROLL_STATE_FLING) {
-			if(isScroll2Bottom && !isLoadMoving) {		// ¹ö¶¯µ½µ×²¿
-				// ¼ÓÔØ¸ü¶à
+			if(isScroll2Bottom && !isLoadMoving) {		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×²ï¿½
+				// ï¿½ï¿½ï¿½Ø¸ï¿½ï¿½ï¿½
 				loading_img_footer.startAnimation(loadAnim);
 				footerView.setPadding(0, 0, 0, 0);
-				this.setSelection(this.getCount());		// ¹ö¶¯µ½ListViewµÄµ×²¿
+				this.setSelection(this.getCount());		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ListViewï¿½Äµ×²ï¿½
 				isLoadMoving = true;
 				
 				if(mOnRefreshListener != null) {
@@ -278,10 +278,10 @@ public class RefreshListView extends ListView implements OnScrollListener {
 	}
 
 	/**
-	 * µ±ListView¹ö¶¯Ê±´¥·¢
-	 * firstVisibleItem ÆÁÄ»ÉÏÏÔÊ¾µÄµÚÒ»¸öItemµÄposition
-	 * visibleItemCount µ±Ç°ÆÁÄ»ÏÔÊ¾µÄ×Ü¸öÊý
-	 * totalItemCount   ListViewµÄ×ÜÌõÊý
+	 * ï¿½ï¿½ListViewï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½
+	 * firstVisibleItem ï¿½ï¿½Ä»ï¿½ï¿½ï¿½ï¿½Ê¾ï¿½Äµï¿½Ò»ï¿½ï¿½Itemï¿½ï¿½position
+	 * visibleItemCount ï¿½ï¿½Ç°ï¿½ï¿½Ä»ï¿½ï¿½Ê¾ï¿½ï¿½ï¿½Ü¸ï¿½ï¿½ï¿½
+	 * totalItemCount   ListViewï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	 */
 	@Override
 	public void onScroll(AbsListView view, int firstVisibleItem,int visibleItemCount, int totalItemCount) {
@@ -290,7 +290,7 @@ public class RefreshListView extends ListView implements OnScrollListener {
 		Log.i("RefreshListView", "onScroll: " + firstVisibleItem + ", " + visibleItemCount + ", " + totalItemCount);
 		
 		if((firstVisibleItem + visibleItemCount) >= totalItemCount&& totalItemCount > 0) {
-			Log.i("RefreshListView", "¼ÓÔØ¸ü¶à");
+			Log.i("RefreshListView", "ï¿½ï¿½ï¿½Ø¸ï¿½ï¿½ï¿½");
 			isScroll2Bottom = true;
 		} else {
 			isScroll2Bottom = false;
@@ -299,16 +299,16 @@ public class RefreshListView extends ListView implements OnScrollListener {
 	
 	/**
 	 * @author andong
-	 * ÏÂÀ­Í·²¿µÄ¼¸ÖÖÏÔÊ¾×´Ì¬
+	 * ï¿½ï¿½ï¿½ï¿½Í·ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½Ê¾×´Ì¬
 	 */
 	public enum DisplayMode {
-		Pull_Down, // ÏÂÀ­Ë¢ÐÂµÄ×´Ì¬
-		Release_Refresh, // ËÉ¿ªË¢ÐÂµÄ×´Ì¬
-		Refreshing	// ÕýÔÚË¢ÐÂÖÐµÄ×´Ì¬
+		Pull_Down, // ï¿½ï¿½ï¿½ï¿½Ë¢ï¿½Âµï¿½×´Ì¬
+		Release_Refresh, // ï¿½É¿ï¿½Ë¢ï¿½Âµï¿½×´Ì¬
+		Refreshing	// ï¿½ï¿½ï¿½ï¿½Ë¢ï¿½ï¿½ï¿½Ðµï¿½×´Ì¬
 	}
 	
 	/**
-	 * ÉèÖÃË¢ÐÂµÄ¼àÌýÊÂ¼þ
+	 * ï¿½ï¿½ï¿½ï¿½Ë¢ï¿½ÂµÄ¼ï¿½ï¿½ï¿½ï¿½Â¼ï¿½
 	 * @param listener
 	 */
 	public void setOnRefreshListener(OnRefreshListener listener) {

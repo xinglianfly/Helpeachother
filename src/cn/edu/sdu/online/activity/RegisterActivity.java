@@ -20,6 +20,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 import cn.edu.sdu.online.R;
 import cn.edu.sdu.online.adapter.MyArrayAdapter;
+import cn.edu.sdu.online.share.FloatApplication;
 
 public class RegisterActivity extends Activity 
 {

@@ -421,11 +421,11 @@ public class RegisterActivityNext extends Activity implements OnClickListener {
 			case 1:
 				// 注册成功
 				registerOpenfire();
-//				Toast.makeText(RegisterActivityNext.this,
-//						getString(R.string.registerSuccess), Toast.LENGTH_SHORT)
-//						.show();
-//
-//				RegisterActivityNext.this.finish();
+				Toast.makeText(RegisterActivityNext.this,
+						getString(R.string.registerSuccess), Toast.LENGTH_SHORT)
+						.show();
+
+				RegisterActivityNext.this.finish();
 				break;
 			case 0:// 注册失败
 				Toast.makeText(RegisterActivityNext.this,

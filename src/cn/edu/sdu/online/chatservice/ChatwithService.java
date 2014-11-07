@@ -63,12 +63,14 @@ public class ChatwithService extends Service {
 		return new ChatBinder();
 	}
 
+	Thread thread;
+
 	@Override
 	public void onCreate() {
 		// TODO Auto-generated method stub
 		super.onCreate();
 		persistService = PersistService.getInstance(this);
-		Thread thread = new Thread(new Runnable() {
+		thread = new Thread(new Runnable() {
 
 			@Override
 			public void run() {
@@ -78,13 +80,22 @@ public class ChatwithService extends Service {
 		thread.start();
 		Log.v(TAG, "service is running");
 	}
-//连接openfire的服务器
-	private void connect() {
+
+	@Override
+	public void onDestroy() {
+		// TODO Auto-generated method stub
+		super.onDestroy();
+		// stopSelf();
+	}
+
+	// 连接openfire的服务器
+	public void connect() {
 		// TODO Auto-generated method stub
 		ConnectionConfiguration configuration = new ConnectionConfiguration(
 				"202.194.14.195", 5222);
 		configuration.setSecurityMode(SecurityMode.disabled);
 		connection = new XMPPTCPConnection(configuration);
+
 		try {
 			connection.connect();
 		} catch (SmackException e) {
@@ -109,10 +120,31 @@ public class ChatwithService extends Service {
 		persistService.setRead(user);
 	}
 
+	public void disconnect() {
+		// TODO Auto-generated method stub
+		try {
+			connection.disconnect();
+		} catch (NotConnectedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
 		// TODO Auto-generated method stub
-		Log.v(TAG, "service is running");
+		// Log.v(TAG, "service is running");
+
+//		Timer timer = new Timer();
+//		timer.schedule(new TimerTask() {
+//
+//			@Override
+//			public void run() {
+//				// TODO Auto-generated method stub
+//				Log.v(TAG, "service is running");
+//			}
+//		}, 1, 1000);
 		return super.onStartCommand(intent, flags, startId);
 	}
 
@@ -122,7 +154,7 @@ public class ChatwithService extends Service {
 		}
 	}
 
-	//注册
+	// 注册
 	public void register(String email, String password) {
 		Message message = new Message();
 		try {
@@ -172,7 +204,8 @@ public class ChatwithService extends Service {
 
 		}
 	};
-//得到最近联系人列表
+
+	// 得到最近联系人列表
 	public ArrayList<String> getChatUsers() {
 		ArrayList<String> users = persistService.getRecentUser(getUsername());
 		return users;
@@ -180,10 +213,14 @@ public class ChatwithService extends Service {
 
 	// 登陆smack的服务器
 	public boolean login(String username, String password) {
+		Log.v(TAG, "执行了login");
+		Log.v(TAG, "username"+username);
 		try {
 			connection.login(username, password);
 			this.username = username;
 			initChatManager();
+
+			Log.v(TAG, "connecgt");
 			return true;
 		} catch (SASLErrorException e) {
 			Log.v("ChatService", e.getMessage());
@@ -203,9 +240,10 @@ public class ChatwithService extends Service {
 
 	// 接收到消息的时候做的处理，一将收的的消息存到数据库，然后从数据库中读出未读的消息
 	public void initChatManager() {
+		Log.v(TAG, "initeManager 执行了");
 		listeners = new HashSet<ContentListener>();
 		chatManager = ChatManager.getInstanceFor(connection);
-		Log.v(TAG, "CHATMANAGER");
+		Log.v(TAG, "CHATMANAGER"+chatManager);
 		chatManager.addChatListener(new ChatManagerListener() {
 			@Override
 			public void chatCreated(Chat chat, boolean createdLocally) {
@@ -216,7 +254,7 @@ public class ChatwithService extends Service {
 				}
 
 				chat.addMessageListener(new ChatMessageListener() {
-					
+
 					@Override
 					public void processMessage(Chat arg0,
 							org.jivesoftware.smack.packet.Message message) {
@@ -240,11 +278,12 @@ public class ChatwithService extends Service {
 						sendBroadcast(intent);
 					}
 				});
-		
+
 			}
 		});
 	}
-//显示通知
+
+	// 显示通知
 	private void Notifications(String currentText) {
 		// TODO Auto-generated method stub
 		Log.v(TAG, "进入了notification");
@@ -258,9 +297,10 @@ public class ChatwithService extends Service {
 		mNotifyBuilder.setContentText(currentText).setAutoCancel(true);
 		Intent intent = new Intent(this, ChatClient.class);
 		intent.putExtra("USERIDTO", content.getFrom());
-		intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-		PendingIntent pendingIntent = PendingIntent.getActivity(ChatwithService.this, 0,
-				intent, PendingIntent.FLAG_ONE_SHOT);
+		Log.v(TAG, content.getFrom()+"content from");
+//		intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		PendingIntent pendingIntent = PendingIntent.getActivity(
+				ChatwithService.this, 0, intent, PendingIntent.FLAG_ONE_SHOT);
 		mNotifyBuilder.setContentIntent(pendingIntent);
 		mNotificationManager.notify(notifyID, mNotifyBuilder.build());
 
@@ -272,7 +312,8 @@ public class ChatwithService extends Service {
 		ArrayList<Content> contents = persistService.getContents(from, to);
 		return contents;
 	}
-//发送消息
+
+	// 发送消息
 	public void sendMessage(Content content, String c) {
 		persistService.appendMessage(content);
 		try {

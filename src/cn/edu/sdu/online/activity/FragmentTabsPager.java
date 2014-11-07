@@ -43,6 +43,7 @@ import android.widget.TabWidget;
 import android.widget.TextView;
 import android.widget.Toast;
 import cn.edu.sdu.online.R;
+import cn.edu.sdu.online.chatservice.ChatwithService;
 import cn.edu.sdu.online.fragment.PersonFragment;
 import cn.edu.sdu.online.fragment.SearchFragment;
 import cn.edu.sdu.online.fragment.SquareFragment;
@@ -64,7 +65,7 @@ public class FragmentTabsPager extends FragmentActivity {
 	//static ActionBar actionbar;
 	static TextView titlea;
 	View viewTitleBar;
-
+	private TextView messageBox;
 	private WindowManager windowManager = null;
 	private WindowManager.LayoutParams windowManagerParams = null;
 	private FloatView floatView = null;
@@ -76,7 +77,6 @@ public class FragmentTabsPager extends FragmentActivity {
 		LayoutInflater inflater = LayoutInflater.from(FragmentTabsPager.this);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);//隐藏标题
 		setContentView(R.layout.fragment_tabs_pager);
-
 		mTabHost = (TabHost) findViewById(android.R.id.tabhost);//布局
 		mTabHost.setup();
 		View storage = inflater.inflate(R.layout.tab_storage, null);//tab bar 布局
@@ -88,6 +88,8 @@ public class FragmentTabsPager extends FragmentActivity {
 		mViewPager = (ViewPager) findViewById(R.id.pager);
 		titlea = (TextView) findViewById(R.id.title);//题目
 		
+		messageBox = (TextView) findViewById(R.id.messagebox);
+		messageBox.setOnClickListener(new messageBoxListener());
 		
 		mTabsAdapter = new TabsAdapter(this, mTabHost, mViewPager);//解析器
 
@@ -110,6 +112,25 @@ public class FragmentTabsPager extends FragmentActivity {
 
 		if (savedInstanceState != null) {
 			mTabHost.setCurrentTabByTag(savedInstanceState.getString("tab"));
+		}
+		
+
+	}
+	
+	protected void onResume() {
+		super.onResume();
+	};
+
+
+	class messageBoxListener implements OnClickListener {
+
+		@Override
+		public void onClick(View v) {
+			// TODO Auto-generated method stub
+			Intent intent = new Intent();
+			intent.setClass(FragmentTabsPager.this, MessageBox.class);
+			startActivity(intent);
+
 		}
 
 	}
@@ -167,7 +188,6 @@ public class FragmentTabsPager extends FragmentActivity {
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
-		
 	}
 	@Override
 	protected void onSaveInstanceState(Bundle outState) {

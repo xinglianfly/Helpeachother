@@ -115,24 +115,26 @@ public class PersistService {
 		System.out.println("email is " + email + "to is" + to);
 		ArrayList<String> users = new ArrayList<String>();
 		SQLiteDatabase db = util.getReadableDatabase();
-		Cursor cursor = db
-				.rawQuery(
-						"select distinct t_to ,t_from from chatmessages where t_from = ? or t_to =?",
-						new String[] { to, to });
-		while (cursor.moveToNext()) {
-			String toorfrom = cursor.getString(0);
-			String fromorto = cursor.getString(1);
-			if (toorfrom.equals(email)) {
-				if (!users.contains(fromorto)) {
-					users.add(fromorto);
-				}
-			} else {
-				if (!users.contains(toorfrom)) {
-					users.add(toorfrom);
+		if (to != null) {
+			Cursor cursor = db
+					.rawQuery(
+							"select distinct t_to ,t_from from chatmessages where t_from = ? or t_to =?",
+							new String[] { to, to });
+
+			while (cursor.moveToNext()) {
+				String toorfrom = cursor.getString(0);
+				String fromorto = cursor.getString(1);
+				if (toorfrom.equals(email)) {
+					if (!users.contains(fromorto)) {
+						users.add(fromorto);
+					}
+				} else {
+					if (!users.contains(toorfrom)) {
+						users.add(toorfrom);
+					}
 				}
 			}
 		}
-
 		return users;
 
 	}

@@ -1,6 +1,7 @@
 package cn.edu.sdu.online.activity;
 
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -8,9 +9,12 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -36,13 +40,15 @@ import cn.edu.sdu.online.share.FloatApplication;
 public class PublishTaskActivity extends Activity {
 
 	String TAG = "PublishTaskActivity";
-
+	String Now[];
+	int intDate, setDate;// 当前日期
+	int intTime, setTime;// 当前时间
 	boolean ifClickMoney = false, ifClickSpirit = false;
 	String limitTime;// 截止日期
 	ImageView money_button, spirit_button, publish_button;// , score,
 															// addDetailDesc;//,
 															// addDescri;
-
+	
 	LinearLayout money_firstshow;
 	LinearLayout money_secondshow;
 	LinearLayout spirit_firstshow;
@@ -57,7 +63,7 @@ public class PublishTaskActivity extends Activity {
 	EditText edittext_describe, edittext_detil;
 	// LinearLayout addDesL;
 	// ViewStub adddes;
-
+	FloatApplication app;
 	// 屏幕数据
 	double screenWidth;
 	double screenHight;
@@ -69,7 +75,8 @@ public class PublishTaskActivity extends Activity {
 	String award_spirit;
 	String describe, describe_detil;
 	Date sdf;
-
+	 boolean dataFired = false;//确定timedialog只调用一次；
+	 boolean timeFired = false;
 	// 时间选择
 	TextView texeview_deadline, texeview_deadtime;
 	Button button_selecttime;
@@ -89,9 +96,9 @@ public class PublishTaskActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
-		requestWindowFeature(Window.FEATURE_NO_TITLE);//隐藏标题
+		requestWindowFeature(Window.FEATURE_NO_TITLE);// 隐藏标题
 		setContentView(R.layout.publish_task_activity);
-
+		app = FloatApplication.getApp();
 		money_button = (ImageView) findViewById(R.id.pubilsh_image_money);
 		spirit_button = (ImageView) findViewById(R.id.pubilsh_image_spirit);
 		// score = (ImageView) findViewById(R.id.pubilsh_image_score);
@@ -290,22 +297,27 @@ public class PublishTaskActivity extends Activity {
 	// time--------------------------------------------------------------------------------
 
 	public void setTime() {
-		SimpleDateFormat formatter = new SimpleDateFormat("yyyy年MM月dd日 HH时mm分");
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy MM dd HH mm");
 		Date curDate = new Date(System.currentTimeMillis());// 获取当前时间
 		String str = formatter.format(curDate);
 		Log.v(TAG, str);
 
-		String nowDate = str.split(" ")[0];
-		String nowTime = str.split(" ")[1];
+		Now = str.split(" ");
 
-		//texeview_deadline.setText(nowDate);
-		texeview_deadtime.setText(nowTime);
+		texeview_deadline.setText(Now[0] + "年" + Now[1] + "月" + Now[2] + "日");
+		texeview_deadtime.setText(Now[3] + "时" + Now[4] + "分");
+		String nowdate = Arrays.toString(Now);
+		String str1 = Now[0] + Now[1] + Now[2];
+		intDate = Integer.parseInt(str1);
+		String str2 = Now[3] + Now[4];
+		intTime = Integer.parseInt(str2);
 	}
 
 	private final int DATE_DIALOG = 1;
 
 	private final int TIME_DIALOG = 2;
 
+	
 	protected Dialog onCreateDialog(int id) {
 		// 用来获取日期和时间的
 		Calendar calendar = Calendar.getInstance();
@@ -313,34 +325,56 @@ public class PublishTaskActivity extends Activity {
 		Dialog dialog = null;
 		switch (id) {
 		case DATE_DIALOG:
+			
 			DatePickerDialog.OnDateSetListener dateListener = new DatePickerDialog.OnDateSetListener() {
 				@Override
 				public void onDateSet(DatePicker datePicker, int year,
 						int month, int dayOfMonth) {
+					
+					if (dataFired == true) {
+						return;
+					} else {
+						dataFired=true;
+						// Calendar月份是从0开始,所以month要加1
+						String mmmm = (month + 1) + "", dddd = dayOfMonth + "";
+						if (month < 9)
+							mmmm = "0" + mmmm;
+						if (dayOfMonth < 10)
+							dddd = "0" + dddd;
+						setDate = Integer.parseInt(year + mmmm + dddd);
+						Log.v(TAG, "DATE_DIALOG");
+						if (intDate > setDate)
+						{	
+							new AlertDialog.Builder(PublishTaskActivity.this)
+									.setTitle("错误").setMessage("请输入合适的时间")
+									.setPositiveButton("确定",
 
-					// Calendar月份是从0开始,所以month要加1
-					String mmmm = (month + 1) + "", dddd = dayOfMonth + "";
-					if (month < 9)
-						mmmm = "0" + mmmm;
-					if (dayOfMonth < 10)
-						dddd = "0" + dddd;
-					texeview_deadline.setText(year + "年" + mmmm + "月" + dddd
-							+ "日");
-					// ///////////////////////////////////////////////
-					limitTime = year + "" + mmmm + "" + dddd;
+									null).show();}
 
-				}
+						else {
+							texeview_deadline.setText(year + "年" + mmmm + "月"
+									+ dddd + "日");
+							// ///////////////////////////////////////////////
+							limitTime = year + "" + mmmm + "" + dddd;
+						}
+
+					}}
 			};
 			dialog = new DatePickerDialog(this, dateListener,
 					calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH),
 					calendar.get(Calendar.DAY_OF_MONTH));
 			break;
 		case TIME_DIALOG:
+			
 			TimePickerDialog.OnTimeSetListener timeListener = new TimePickerDialog.OnTimeSetListener() {
 
 				@Override
 				public void onTimeSet(TimePicker timerPicker, int hourOfDay,
 						int minute) {
+					if (timeFired == true) {
+						return;
+					} else {
+						timeFired=true;
 					// EditText editText =
 					// (EditText) findViewById(R.id.editText);
 					String hhhh = hourOfDay + "", mmmm = minute + "";
@@ -348,13 +382,28 @@ public class PublishTaskActivity extends Activity {
 						hhhh = "0" + hhhh;
 					if (minute < 10)
 						mmmm = "0" + mmmm;
+					setTime = Integer.parseInt(hhhh + mmmm);
+					if ((intDate >= setDate) && setTime < intTime) {
+						new AlertDialog.Builder(PublishTaskActivity.this)
+								.setTitle("时间设置错误").setPositiveButton("确定",
 
-					texeview_deadtime.setText(hhhh + "时" + mmmm + "分");
-				}
+								new Dialog.OnClickListener() {
+
+									@Override
+									public void onClick(DialogInterface dialog,
+											int which) {
+										// TODO Auto-generated method stub
+
+									}
+								}).show();
+
+					} else
+						texeview_deadtime.setText(hhhh + "时" + mmmm + "分");
+				}}
 			};
 			dialog = new TimePickerDialog(this, timeListener,
 					calendar.get(Calendar.HOUR_OF_DAY),
-					calendar.get(Calendar.MINUTE), false); // 是否为二十四制
+					calendar.get(Calendar.MINUTE), true); // 是否为二十四制
 			break;
 		default:
 			break;
@@ -400,7 +449,30 @@ public class PublishTaskActivity extends Activity {
 		public void onClick(View v) {
 			// TODO Auto-generated method stub
 			// award_money;award_spirit;describe;describe_detil
-			// 开启线程
+			// 判断电话是否为空
+			//
+			 String phone
+			 =app.getUser(getString(R.string.userFileName)).getPhoneNo();
+			 if(phone.length()==0)
+			 {
+			 new AlertDialog.Builder(PublishTaskActivity.this)
+			 .setTitle("请完善用户电话等信息").setPositiveButton("确定",
+			
+			 new Dialog.OnClickListener() {
+			
+			 @Override
+			 public void onClick(DialogInterface dialog, int which) {
+			 Intent intent =new
+			 Intent(PublishTaskActivity.this,ChangePersonActivity.class);
+			 startActivity(intent);
+			
+			 }
+			 }).create()
+			 .show();
+			 }
+			 else{
+			Log.v(TAG, FloatApplication.getApp()
+					.getUser(getString(R.string.userFileName)).getId());
 			task.setUserId(FloatApplication.getApp()
 					.getUser(getString(R.string.userFileName)).getId());
 
@@ -415,7 +487,7 @@ public class PublishTaskActivity extends Activity {
 			} catch (Exception e) {
 				// TODO: handle exception
 			}
-			
+
 			task.setSpiritAward(input_spirit_award.getText().toString() + "");
 			Log.v(TAG, "limitTime" + limitTime);
 			task.setLimitTime(limitTime);
@@ -425,7 +497,7 @@ public class PublishTaskActivity extends Activity {
 			thread.start();
 
 		}
-
+		 }
 	}
 
 	//

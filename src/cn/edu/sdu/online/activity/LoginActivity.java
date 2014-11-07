@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
@@ -33,9 +34,14 @@ import cn.edu.sdu.online.share.FloatApplication;
 import cn.edu.sdu.online.util.ConvertString;
 import cn.edu.sdu.online.util.DialogUtil;
 
+import com.amap.api.location.AMapLocation;
+import com.amap.api.location.AMapLocationListener;
+import com.amap.api.location.LocationManagerProxy;
+import com.amap.api.location.LocationProviderProxy;
 import com.tencent.tauth.Tencent;
 
-public class LoginActivity extends Activity implements View.OnClickListener {
+public class LoginActivity extends Activity implements View.OnClickListener,
+		AMapLocationListener {
 	private String TAG = "LoginActivity";
 	private User loginUser = new User();
 	private double screenWidth, screenHight, density;
@@ -47,6 +53,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
 
 	/** 如果登录成功后,用于保存PASSWORD到SharedPreferences,以便下次不再输入 */
 	private String SHARE_LOGIN_PASSWORD = "MAP_LOGIN_PASSWORD";
+	private String SHARE_LOGIN_SUCCESS = "SHARE_LOGIN_SUCCESS";
 
 	/** 如果登陆失败,这个可以给用户确切的消息显示,true是网络连接失败,false是用户名和密码错误 */
 	private boolean isNetError;
@@ -62,31 +69,49 @@ public class LoginActivity extends Activity implements View.OnClickListener {
 	String openid;
 	SharedPreferences sp;
 	boolean isRemember = true;
-	private boolean bound=false;
+	private boolean bound = false;
 	private ChatwithService chatservice;
+	private LocationManagerProxy mLocationManagerProxy;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
-		requestWindowFeature(Window.FEATURE_NO_TITLE);//隐藏标题 
+		requestWindowFeature(Window.FEATURE_NO_TITLE);// 隐藏标题
 		setContentView(R.layout.login_activity);
 		sp = PreferenceManager.getDefaultSharedPreferences(this);
-		if(sp.getBoolean("first_run", true)){
-			Intent intent = new Intent(this,UserGuideActivity.class);
-			startActivity(intent);
-			Editor editor = sp.edit();
-			editor.putBoolean("first_run", false);
-			editor.commit();
-		}
+		initLocation();
 		findView();
 		getSize();
 		setSize();
 		getRememberMe(isRemember);
-		Intent intent = new Intent(LoginActivity.this, ChatwithService.class);
-		bindService(intent, serviceConnection, BIND_IMPORTANT);
-
-
+		
 	}
+
+	// 定位初始化
+	private void initLocation() {
+		// 初始化定位，只采用网络定位
+		mLocationManagerProxy = LocationManagerProxy.getInstance(this);
+		mLocationManagerProxy.setGpsEnable(false);
+		// 此方法为每隔固定时间会发起一次定位请求，为了减少电量消耗或网络流量消耗，
+		// 注意设置合适的定位时间的间隔（最小间隔支持为2000ms），并且在合适时间调用removeUpdates()方法来取消定位请求
+		// 在定位结束后，在合适的生命周期调用destroy()方法
+		// 其中如果间隔时间为-1，则定位只定一次,
+		// 在单次定位情况下，定位无论成功与否，都无需调用removeUpdates()方法移除请求，定位sdk内部会移除
+		mLocationManagerProxy.requestLocationData(
+				LocationProviderProxy.AMapNetwork, 60 * 1000, 15, this);
+		System.out.println("执行力initLocation");
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		Intent sIntent = new Intent(LoginActivity.this, ChatwithService.class);
+		bindService(sIntent, serviceConnection, BIND_IMPORTANT
+				| BIND_AUTO_CREATE);
+
+	};
+
 	ServiceConnection serviceConnection = new ServiceConnection() {
 
 		@Override
@@ -100,13 +125,19 @@ public class LoginActivity extends Activity implements View.OnClickListener {
 			// TODO Auto-generated method stub
 			ChatBinder binder = (ChatBinder) service;
 			chatservice = binder.getService();
+			Log.v(TAG, "BIND chatservice" + chatservice);
 			bound = true;
 		}
 	};
 
 	protected void onPause() {
 		super.onPause();
-		unbindService(serviceConnection);
+		if (bound)
+			unbindService(serviceConnection);
+		// 移除定位请求
+		mLocationManagerProxy.removeUpdates(this);
+		// 销毁定位
+		mLocationManagerProxy.destroy();
 	};
 
 	// 设置控件绝对大小
@@ -168,7 +199,6 @@ public class LoginActivity extends Activity implements View.OnClickListener {
 		editPass = (EditText) findViewById(R.id.login_edittext_password);
 
 		checkRemember = (CheckBox) findViewById(R.id.login_checkbox_remember);
-		// checkRemember.setOnClickListener(this);
 		checkRemember.setTag(3);
 
 	}
@@ -195,18 +225,14 @@ public class LoginActivity extends Activity implements View.OnClickListener {
 		switch (tag) {
 		case 1:
 			initUser();// 从输入框得到数据
-			dialog =DialogUtil.createLoadingDialog(this, "请稍后...");
+			dialog = DialogUtil.createLoadingDialog(this, "请稍后...");
 			dialog.show();
-		
 			Thread loginTh = new Thread(new loginThread());
 			loginTh.start();
-
 			break;
 		case 2:
-
 			Intent it = new Intent(LoginActivity.this, RegisterActivity.class);
 			startActivity(it);
-
 			break;
 		case 3:
 			isRemember = checkRemember.isChecked();
@@ -282,19 +308,20 @@ public class LoginActivity extends Activity implements View.OnClickListener {
 
 	Handler loginHandler = new Handler() {
 		public void handleMessage(Message message) {
+			SharedPreferences share = getSharedPreferences(SHARE_LOGIN_TAG, 0);
 			Log.v(TAG, "message.what" + message.what);
 			switch (message.what) {
 
 			case 1:
 				// 登录成功
-				SharedPreferences share = getSharedPreferences(SHARE_LOGIN_TAG,
-						0);
+
 				share.edit()
 						.putString(SHARE_LOGIN_PASSWORD,
 								editPass.getText().toString()).commit();
 				share.edit()
 						.putString(SHARE_LOGIN_EMAIL,
 								editUser.getText().toString()).commit();
+				share.edit().putBoolean(SHARE_LOGIN_SUCCESS, true).commit();
 				Toast.makeText(LoginActivity.this,
 						getString(R.string.loginSuccess), Toast.LENGTH_SHORT)
 						.show();
@@ -310,6 +337,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
 				if (dialog != null) {
 					dialog.dismiss();
 				}
+				share.edit().putBoolean(SHARE_LOGIN_SUCCESS, false).commit();
 				Toast.makeText(LoginActivity.this,
 						getString(R.string.loginFail), Toast.LENGTH_SHORT)
 						.show();
@@ -407,12 +435,56 @@ public class LoginActivity extends Activity implements View.OnClickListener {
 			// TODO Auto-generated method stub
 			String username = loginUser.getEmail();
 			String password = loginUser.getPassword();
-			Log.v(TAG, username+"username");
-			Log.v(TAG, password+"password");
-			chatservice.login(ConvertString.convert(username), password);
+			Log.v(TAG, username + "username");
+			Log.v(TAG, password + "password");
+			Log.v(TAG, chatservice + "CHATSERVICE");
 
+			if (bound) {
+				Log.v(TAG,
+						"ChatService connection" + chatservice.getConnection());
+				if (!chatservice.getConnection().isConnected()) {
+					chatservice.connect();
+				}
+				chatservice.login(ConvertString.convert(username), password);
+
+			}
 		}
 
 	}
 
+	@Override
+	public void onLocationChanged(Location location) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void onStatusChanged(String provider, int status, Bundle extras) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void onProviderEnabled(String provider) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void onProviderDisabled(String provider) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void onLocationChanged(AMapLocation amapLocation) {
+		// TODO Auto-generated method stub
+		if (amapLocation != null
+				&& amapLocation.getAMapException().getErrorCode() == 0) {
+			// 定位成功回调信息，设置相关消息
+			System.out.println(amapLocation.getStreet() + "street");
+			Toast.makeText(this, amapLocation.getStreet() + "street",
+					Toast.LENGTH_LONG).show();
+		}
+	}
 }
