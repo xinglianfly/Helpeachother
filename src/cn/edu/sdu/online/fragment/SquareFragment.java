@@ -312,10 +312,11 @@ public class SquareFragment extends Fragment implements OnClickListener {
 			Log.v(TAG, jsonResult);
 			// 解析jsonResult,初始化tasklist
 			List<Task> list = new ParseJson().getTaskListFromJson(jsonResult);
-			
+			if(list==null);
+			else{
 			for (int i = 0; i < list.size(); i++) {
 				taskList.add(list.get(i));
-			}
+			}}
 			FloatApplication.getApp().setStoreRelTask(
 					StaticValues.STORE_SQUARETASKLIST, taskList);
 try {

@@ -33,30 +33,12 @@ public class SplashActivity extends Activity {
 			@Override
 			public void run() {
 				// TODO Auto-generated method stub
-				boolean iflogin = share.getBoolean(SHARE_LOGIN_SUCCESS, false);
-				if (iflogin) {
-					Intent intentF = new Intent();
-					intentF.setClass(SplashActivity.this,
-							FragmentTabsPager.class);
-					startActivity(intentF);
-					finish();
-				} else {
-					Intent intent = new Intent();
-					intent.setClass(SplashActivity.this, UserGuideActivity.class);
-					if (PreferenceManager.getDefaultSharedPreferences(SplashActivity.this).getBoolean("first_run", true)) {
-						intent.setClass(SplashActivity.this, UserGuideActivity.class);
-						startActivity(intent);
-						Editor editor = PreferenceManager.getDefaultSharedPreferences(SplashActivity.this).edit();
-						editor.putBoolean("first_run", false);
-						editor.commit();
-					} else {
-					intent.setClass(SplashActivity.this, LoginActivity.class);
-					startActivity(intent);
-					
-					}
-					finish();
+				Intent intent = new Intent();
+				intent.setClass(SplashActivity.this, LoginActivity.class);
+				startActivity(intent);
+				finish();
 				}
-			}
+			
 		}, 3000);
 
 	}

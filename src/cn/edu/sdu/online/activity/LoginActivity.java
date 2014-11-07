@@ -70,6 +70,14 @@ public class LoginActivity extends Activity implements View.OnClickListener {
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
+		sp = PreferenceManager.getDefaultSharedPreferences(this);
+		if(sp.getBoolean("first_run", true)){
+			Intent intent = new Intent(this,UserGuideActivity.class);
+			startActivity(intent);
+			Editor editor = sp.edit();
+			editor.putBoolean("first_run", false);
+			editor.commit();
+		}
 		requestWindowFeature(Window.FEATURE_NO_TITLE);// 隐藏标题
 		setContentView(R.layout.login_activity);
 		sp = PreferenceManager.getDefaultSharedPreferences(this);

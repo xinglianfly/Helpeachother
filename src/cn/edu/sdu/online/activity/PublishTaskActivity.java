@@ -48,7 +48,7 @@ public class PublishTaskActivity extends Activity {
 	ImageView money_button, spirit_button, publish_button;// , score,
 															// addDetailDesc;//,
 															// addDescri;
-	
+
 	LinearLayout money_firstshow;
 	LinearLayout money_secondshow;
 	LinearLayout spirit_firstshow;
@@ -75,8 +75,8 @@ public class PublishTaskActivity extends Activity {
 	String award_spirit;
 	String describe, describe_detil;
 	Date sdf;
-	 boolean dataFired = false;//确定timedialog只调用一次；
-	 boolean timeFired = false;
+	boolean dataFired = false;// 确定timedialog只调用一次；
+	boolean timeFired = false;
 	// 时间选择
 	TextView texeview_deadline, texeview_deadtime;
 	Button button_selecttime;
@@ -90,7 +90,6 @@ public class PublishTaskActivity extends Activity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);// 隐藏标题
 		setContentView(R.layout.publish_task_activity);
@@ -170,7 +169,6 @@ public class PublishTaskActivity extends Activity {
 	// public void onClick(View v) {
 	//
 	// //动画/////////////////////////////////////////////////////////////////////////////////
-	// // TODO Auto-generated method stub
 	// adddes.setVisibility(View.GONE);
 	// ObjectAnimator.ofFloat(addDesL, "translationY", 50, 0)
 	// .setDuration(100).start();
@@ -183,7 +181,6 @@ public class PublishTaskActivity extends Activity {
 	//
 	// @Override
 	// public void onClick(View v) {
-	// // TODO Auto-generated method stub
 	// ObjectAnimator.ofFloat(addDesL, "translationY", 0, 20)
 	// .setDuration(200).start();
 	// addDescri.setEnabled(false);
@@ -224,7 +221,7 @@ public class PublishTaskActivity extends Activity {
 					s.setText("");
 
 					awardStatus = 0;
-
+					// TODO　这里需要加是否是整数的判断
 					award_money = Integer.parseInt(input_money_award.getText()
 							.toString());
 				}
@@ -295,13 +292,13 @@ public class PublishTaskActivity extends Activity {
 		intDate = Integer.parseInt(str1);
 		String str2 = Now[3] + Now[4];
 		intTime = Integer.parseInt(str2);
+		limitTime = Now[0] + "" + Now[1] + "" + Now[2];
 	}
 
 	private final int DATE_DIALOG = 1;
 
 	private final int TIME_DIALOG = 2;
 
-	
 	protected Dialog onCreateDialog(int id) {
 		// 用来获取日期和时间的
 		Calendar calendar = Calendar.getInstance();
@@ -309,56 +306,54 @@ public class PublishTaskActivity extends Activity {
 		Dialog dialog = null;
 		switch (id) {
 		case DATE_DIALOG:
-			
+
 			DatePickerDialog.OnDateSetListener dateListener = new DatePickerDialog.OnDateSetListener() {
 				@Override
 				public void onDateSet(DatePicker datePicker, int year,
 						int month, int dayOfMonth) {
-					
-					if (dataFired == true) {
-						return;
-					} else {
-						dataFired=true;
-						// Calendar月份是从0开始,所以month要加1
-						String mmmm = (month + 1) + "", dddd = dayOfMonth + "";
-						if (month < 9)
-							mmmm = "0" + mmmm;
-						if (dayOfMonth < 10)
-							dddd = "0" + dddd;
-						setDate = Integer.parseInt(year + mmmm + dddd);
-						Log.v(TAG, "DATE_DIALOG");
-						if (intDate > setDate)
-						{	
+
+					// Calendar月份是从0开始,所以month要加1
+					String mmmm = (month + 1) + "", dddd = dayOfMonth + "";
+					if (month < 9)
+						mmmm = "0" + mmmm;
+					if (dayOfMonth < 10)
+						dddd = "0" + dddd;
+					setDate = Integer.parseInt(year + mmmm + dddd);
+					Log.v(TAG, "DATE_DIALOG");
+					if (intDate > setDate) {
+						if (dataFired == true) {
+							return;
+						} else {
+							dataFired = true;
 							new AlertDialog.Builder(PublishTaskActivity.this)
 									.setTitle("错误").setMessage("请输入合适的时间")
 									.setPositiveButton("确定",
 
-									null).show();}
-
-						else {
-							texeview_deadline.setText(year + "年" + mmmm + "月"
-									+ dddd + "日");
-							// ///////////////////////////////////////////////
-							limitTime = year + "" + mmmm + "" + dddd;
+									null).show();
 						}
+					}
 
-					}}
+					else {
+						texeview_deadline.setText(year + "年" + mmmm + "月"
+								+ dddd + "日");
+						// ///////////////////////////////////////////////
+						limitTime = year + "" + mmmm + "" + dddd;
+					}
+
+				}
 			};
 			dialog = new DatePickerDialog(this, dateListener,
 					calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH),
 					calendar.get(Calendar.DAY_OF_MONTH));
 			break;
 		case TIME_DIALOG:
-			
+
 			TimePickerDialog.OnTimeSetListener timeListener = new TimePickerDialog.OnTimeSetListener() {
 
 				@Override
 				public void onTimeSet(TimePicker timerPicker, int hourOfDay,
 						int minute) {
-					if (timeFired == true) {
-						return;
-					} else {
-						timeFired=true;
+
 					// EditText editText =
 					// (EditText) findViewById(R.id.editText);
 					String hhhh = hourOfDay + "", mmmm = minute + "";
@@ -368,22 +363,27 @@ public class PublishTaskActivity extends Activity {
 						mmmm = "0" + mmmm;
 					setTime = Integer.parseInt(hhhh + mmmm);
 					if ((intDate >= setDate) && setTime < intTime) {
-						new AlertDialog.Builder(PublishTaskActivity.this)
-								.setTitle("时间设置错误").setPositiveButton("确定",
+						if (timeFired == true) {
+							return;
+						} else {
+							timeFired = true;
+							new AlertDialog.Builder(PublishTaskActivity.this)
+									.setTitle("时间设置错误").setPositiveButton("确定",
 
-								new Dialog.OnClickListener() {
+									new Dialog.OnClickListener() {
 
-									@Override
-									public void onClick(DialogInterface dialog,
-											int which) {
-										// TODO Auto-generated method stub
+										@Override
+										public void onClick(
+												DialogInterface dialog,
+												int which) {
 
-									}
-								}).show();
+										}
+									}).show();
+						}
 
 					} else
 						texeview_deadtime.setText(hhhh + "时" + mmmm + "分");
-				}}
+				}
 			};
 			dialog = new TimePickerDialog(this, timeListener,
 					calendar.get(Calendar.HOUR_OF_DAY),
@@ -431,57 +431,72 @@ public class PublishTaskActivity extends Activity {
 
 		@Override
 		public void onClick(View v) {
-			// TODO Auto-generated method stub
 			// award_money;award_spirit;describe;describe_detil
 			// 判断电话是否为空
 			//
-			 String phone
-			 =app.getUser(getString(R.string.userFileName)).getPhoneNo();
-			 if(phone.length()==0)
-			 {
-			 new AlertDialog.Builder(PublishTaskActivity.this)
-			 .setTitle("请完善用户电话等信息").setPositiveButton("确定",
-			
-			 new Dialog.OnClickListener() {
-			
-			 @Override
-			 public void onClick(DialogInterface dialog, int which) {
-			 Intent intent =new
-			 Intent(PublishTaskActivity.this,ChangePersonActivity.class);
-			 startActivity(intent);
-			
-			 }
-			 }).create()
-			 .show();
-			 }
-			 else{
-			Log.v(TAG, FloatApplication.getApp()
-					.getUser(getString(R.string.userFileName)).getId());
-			task.setUserId(FloatApplication.getApp()
-					.getUser(getString(R.string.userFileName)).getId());
+			String phone = app.getUser(getString(R.string.userFileName))
+					.getPhoneNo();
+			if (phone.length() == 0) {
+				new AlertDialog.Builder(PublishTaskActivity.this)
+						.setTitle("请完善用户电话等信息").setPositiveButton("确定",
 
-			// String content=edittext_describe.getText().toString();
+						new Dialog.OnClickListener() {
 
-			task.setContent(edittext_describe.getText().toString());
-			int aw = awardStatus;
-			task.setAwardStatus(aw);
-			try {
-				task.setTipAward(Integer.parseInt(input_money_award.getText()
-						.toString()));
-			} catch (Exception e) {
-				// TODO: handle exception
+							@Override
+							public void onClick(DialogInterface dialog,
+									int which) {
+								Intent intent = new Intent(
+										PublishTaskActivity.this,
+										ChangePersonActivity.class);
+								startActivity(intent);
+
+							}
+						}).create().show();
+			} else {
+				Log.v(TAG,
+						FloatApplication.getApp()
+								.getUser(getString(R.string.userFileName))
+								.getId());
+				task.setUserId(FloatApplication.getApp()
+						.getUser(getString(R.string.userFileName)).getId());
+
+				// String content=edittext_describe.getText().toString();
+
+				task.setContent(edittext_describe.getText().toString());
+				int aw = awardStatus;
+				task.setAwardStatus(aw);
+				try {
+					task.setTipAward(Integer.parseInt(input_money_award
+							.getText().toString()));
+				} catch (Exception e) {
+
+				}
+				try {
+					task.setSpiritAward(input_spirit_award.getText().toString()
+							+ "");
+				} catch (Exception e) {
+					new AlertDialog.Builder(PublishTaskActivity.this)
+							.setTitle("请输入标准的数字格式").setPositiveButton("确定",
+
+							new Dialog.OnClickListener() {
+
+								@Override
+								public void onClick(DialogInterface dialog,
+										int which) {
+
+								}
+							}).create().show();
+				}
+
+				Log.v(TAG, "limitTime" + limitTime);
+				task.setLimitTime(limitTime);
+				task.setDetails(edittext_detil.getText().toString());
+
+				Thread thread = new Thread(new PublishThread());
+				thread.start();
+
 			}
-
-			task.setSpiritAward(input_spirit_award.getText().toString() + "");
-			Log.v(TAG, "limitTime" + limitTime);
-			task.setLimitTime(limitTime);
-			task.setDetails(edittext_detil.getText().toString());
-
-			Thread thread = new Thread(new PublishThread());
-			thread.start();
-
 		}
-		 }
 	}
 
 	//
@@ -518,7 +533,6 @@ public class PublishTaskActivity extends Activity {
 				JSONObject jsonObject = new JSONObject(jsonData);
 				message.what = jsonObject.getInt("result");
 			} catch (JSONException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			handler.sendMessage(message);
