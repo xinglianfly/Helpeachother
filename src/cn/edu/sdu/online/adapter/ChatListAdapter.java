@@ -1,5 +1,6 @@
 package cn.edu.sdu.online.adapter;
 
+import java.util.Date;
 import java.util.List;
 
 import android.content.Context;
@@ -56,9 +57,9 @@ public class ChatListAdapter extends BaseAdapter {
 				.findViewById(R.id.formclient_row_date);
 		TextView msgView = (TextView) convertView
 				.findViewById(R.id.formclient_row_msg);
-
+		String date = content.get(position).getDatetime().toLocaleString();
 		useridView.setText(content.get(position).getFrom());
-		dateView.setText(content.get(position).getDatetime().toString());
+		dateView.setText(date);
 		msgView.setText(content.get(position).getContent());
 		return convertView;
 	}

@@ -39,6 +39,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.WindowManager.LayoutParams;
+import android.widget.ImageView;
 import android.widget.TabHost;
 import android.widget.TabWidget;
 import android.widget.TextView;
@@ -66,7 +67,7 @@ public class FragmentTabsPager extends FragmentActivity {
 	//static ActionBar actionbar;
 	static TextView titlea;
 	View viewTitleBar;
-	private TextView messageBox;
+	private ImageView messageBox;
 	private WindowManager windowManager = null;
 	private WindowManager.LayoutParams windowManagerParams = null;
 	private FloatView floatView = null;
@@ -91,7 +92,7 @@ public class FragmentTabsPager extends FragmentActivity {
 		mViewPager = (ViewPager) findViewById(R.id.pager);
 		titlea = (TextView) findViewById(R.id.title);//题目
 		
-		messageBox = (TextView) findViewById(R.id.messagebox);
+		messageBox = (ImageView) findViewById(R.id.messagebox);
 		messageBox.setOnClickListener(new messageBoxListener());
 		
 		mTabsAdapter = new TabsAdapter(this, mTabHost, mViewPager);//解析器

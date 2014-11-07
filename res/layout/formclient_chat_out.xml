@@ -29,7 +29,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="right"
-        android:background="@drawable/outgoing"
+        android:background="@drawable/talk_me_9"
         android:paddingBottom="3.0dip"
         android:paddingLeft="10.0dip"
         android:paddingRight="20.0dip"
@@ -39,7 +39,7 @@
             android:id="@+id/formclient_row_msg"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="#FF000000" />
+            android:textColor="#00b2b2" />
     </LinearLayout>
 
 </LinearLayout>

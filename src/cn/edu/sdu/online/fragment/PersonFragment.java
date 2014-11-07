@@ -111,8 +111,6 @@ public class PersonFragment extends Fragment {
 		}
 	};
 
-	
-
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -261,7 +259,6 @@ public class PersonFragment extends Fragment {
 			chatservice.disconnect();
 			SharedPreferences share = getActivity().getSharedPreferences(SHARE_LOGIN_TAG, Context.MODE_PRIVATE);
 			share.edit().putBoolean(SHARE_LOGIN_SUCCESS, false).commit();
-//			getActivity().unbindService(serviceConnection);
 			getActivity().finish();
 		}
 

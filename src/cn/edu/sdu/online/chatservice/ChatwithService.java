@@ -292,7 +292,7 @@ public class ChatwithService extends Service {
 		int notifyID = 1;
 		NotificationCompat.Builder mNotifyBuilder = new NotificationCompat.Builder(
 				this).setContentTitle("新消息").setContentText(currentText)
-				.setSmallIcon(R.drawable.ic_launcher);
+				.setSmallIcon(R.drawable.icon);
 		mNotifyBuilder.setDefaults(Notification.DEFAULT_ALL);
 		mNotifyBuilder.setContentText(currentText).setAutoCancel(true);
 		Intent intent = new Intent(this, ChatClient.class);

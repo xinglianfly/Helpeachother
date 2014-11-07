@@ -443,10 +443,6 @@ public class LoginActivity extends Activity implements View.OnClickListener,
 			// TODO Auto-generated method stub
 			String username = loginUser.getEmail();
 			String password = loginUser.getPassword();
-			Log.v(TAG, username + "username");
-			Log.v(TAG, password + "password");
-			Log.v(TAG, chatservice + "CHATSERVICE");
-
 			if (bound) {
 				Log.v(TAG,
 						"ChatService connection" + chatservice.getConnection());
@@ -490,9 +486,8 @@ public class LoginActivity extends Activity implements View.OnClickListener,
 		if (amapLocation != null
 				&& amapLocation.getAMapException().getErrorCode() == 0) {
 			// 定位成功回调信息，设置相关消息
-			System.out.println(amapLocation.getStreet() + "street");
-			Toast.makeText(this, amapLocation.getStreet() + "street",
-					Toast.LENGTH_LONG).show();
+			Toast.makeText(this, amapLocation.getStreet(), Toast.LENGTH_LONG)
+					.show();
 			SharedPreferences share = getSharedPreferences(SHARE_LOGIN_TAG,
 					MODE_PRIVATE);
 			share.edit().putString("location", amapLocation.getStreet())

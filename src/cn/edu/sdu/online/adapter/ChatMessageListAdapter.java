@@ -49,7 +49,8 @@ public class ChatMessageListAdapter extends BaseAdapter {
 	public View getView(int position, View convertView, ViewGroup parent) {
 		// TODO Auto-generated method stub
 		convertView = inflater.inflate(R.layout.messagelistdetail, null);
-		TextView time, from, message;
+		TextView time, from;
+//		System.out.println(time+"time");
 		time = (TextView) convertView.findViewById(R.id.messagetime);
 		from = (TextView) convertView.findViewById(R.id.messagefrom);
 
@@ -57,8 +58,8 @@ public class ChatMessageListAdapter extends BaseAdapter {
 		String unread = chatservice.getUnreadMessages(list.get(position));
 		if (!unread.equals("0")) {
 			time.setText(chatservice.getUnreadMessages(list.get(position)));
+//			time.setBackgroundResource(R.drawable.red_point);
 		}
-		message = (TextView) convertView.findViewById(R.id.messagelast);
 		return convertView;
 	}
 

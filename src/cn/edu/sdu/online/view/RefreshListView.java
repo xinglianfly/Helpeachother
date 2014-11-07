@@ -83,10 +83,8 @@ public class RefreshListView extends ListView implements OnScrollListener {
 		tvState = (TextView) headerView.findViewById(R.id.tv_listview_header_state);
 		tvLastUpdateTime = (TextView) headerView.findViewById(R.id.tv_listview_header_last_update_time);
 		
-		
 		ivArrow.setMinimumWidth(50);
-		tvLastUpdateTime.setText("上次刷新时间: " + getLastUpdateTime());
-		
+		tvLastUpdateTime.setText("上次更新时间: " + getLastUpdateTime());
 		measureView(headerView);
 		headerViewHeight = headerView.getMeasuredHeight();
 		

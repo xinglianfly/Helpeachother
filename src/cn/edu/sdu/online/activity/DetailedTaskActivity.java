@@ -30,7 +30,7 @@ public class DetailedTaskActivity extends Activity {
 	private TextView school;
 	private TextView lefttime;
 	private TextView reward;
-	private TextView messageBox;
+	private ImageView messageBox;
 	private TextView formaltext, detail, change_tel, grade;
 	private boolean areButtonsShowing;
 	ListView refreshListView;
@@ -133,7 +133,7 @@ public class DetailedTaskActivity extends Activity {
 		grade = (TextView) findViewById(R.id.grade);
 		grade.setText("等级:" + task.getLevel() + "级");
 		refreshListView = (ListView) this.findViewById(R.id.listView);
-		messageBox = (TextView) findViewById(R.id.messagebox);
+		messageBox = (ImageView) findViewById(R.id.messagebox);
 		messageBox.setOnClickListener(new messageBoxListener());
 	}
 

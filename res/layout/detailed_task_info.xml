@@ -47,16 +47,14 @@
                     android:textColor="@color/color_white"
                     android:textSize="9pt" />
 
-                <TextView
+                <ImageView
                     android:id="@+id/messagebox"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="消息盒子"
-                    android:textColor="#fff"
+                    android:src="@drawable/resize_png_new"
                     android:layout_marginRight="15dp"
                     android:layout_alignParentRight="true" 
                     android:layout_centerVertical="true"/>
-                <!-- <TextView android:id="@+id/"/> -->
             </RelativeLayout>
 
             <RelativeLayout

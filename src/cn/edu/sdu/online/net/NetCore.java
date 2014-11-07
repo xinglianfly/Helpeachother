@@ -21,9 +21,7 @@ import cn.edu.sdu.online.entity.User;
 
 public class NetCore {
 
-	//private final static String ServerAddr = "http://211.87.226.153:8080/Dajiabang/";
 	 private final static String ServerAddr ="http://211.87.234.180:8080/Dajiabang/";
-
 	private final String LoginAddr = ServerAddr + "user/login";
 	private final String RegisteAddr = ServerAddr + "user/register";
 	// SJQ
